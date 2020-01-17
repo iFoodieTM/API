@@ -73,6 +73,40 @@ class UserController extends Controller
             ],401);
     }
 
+    public function recoverPassword (Request $request){
+        $user = User::where('email',$request->email)->first();  
+        if (isset($user)) {   
+            $newPassword = self::randomPassword();
+            self::sendEmail($user->email,$newPassword);
+            
+                $user->password = $newPassword;
+                $user->update();
+            
+            return response()->json(["Success" => "Se ha reestablecido su contraseña, revise su correo electrónico."]);
+        }else{
+            return response()->json(["Error" => "El email no existe"]);
+        }
+
+    }
+
+    public function sendEmail ($email, $newPassword){
+        $para      = $email;
+        $titulo    = 'Recuperar contraseña de iFoodie';
+        $mensaje   = 'Se ha establecido "'.$newPassword.'" como su nueva contraseña.';
+        mail($para, $titulo, $mensaje);
+    }
+    
+    public function randomPassword() {
+        $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        $pass = array(); //remember to declare $pass as an array
+        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        for ($i = 0; $i < 10; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        return implode($pass); //turn the array into a string
+    }
+
     /**
      * Display the specified resource.
      *
