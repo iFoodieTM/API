@@ -78,7 +78,7 @@ class UserController extends Controller
             $newPassword = self::randomPassword();
             self::sendEmail($user->email,$newPassword);
             
-                $user->password = $newPassword;
+                $user->password = encrypt($newPassword);
                 $user->update();
             
             return response()->json(["Success" => "Se ha restablecido su contraseña, revise su correo electronico."]);
@@ -113,8 +113,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
+    {   
+        $user = User::all();
+        return response()->json(["Success" => $user]);
     }
 
     /**
