@@ -13,8 +13,19 @@ class User extends Model
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = $request->password;
+        $user->password = encrypt($request->password);
         $user->photo = $request->photo;
         $user->save();
+    }
+
+    public function userExists($email){
+        $users = self::where('email',$email)->get();
+        
+        foreach ($users as $key => $value) {
+            if($value->email == $email){
+                return true;
+            }
+        }
+        return false;
     }
 }

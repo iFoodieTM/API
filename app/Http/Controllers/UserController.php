@@ -36,44 +36,43 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $user = new User();
-        $user->create($request); 
-        var_dump('añadido');
-
-        $token = new Token($user->email);
-        $tokenEncode = $token->encode();
-        
-        return response()->json([
-            "token" => $tokenEncode
-        ],200);
+        if (!$user->userExists($request->email)){
+            $user->create($request);
+            $data_token = [
+                "email" => $user->email,
+            ];
+            $token = new Token($data_token);
+            
+            $tokenEncoded = $token->encode();
+            return response()->json([
+                "token" => $tokenEncoded
+            ], 201);
+        }else{
+            return response()->json(["Error" => "No se pueden crear usuarios con el mismo Email o con el Email vacío"]);
+        }
     }
 
     public function login(Request $request){
         //Buscar el email de los usuarios de la BDD
-        $user = User::where('email', $request->email)->get();
+        $data_token = ['email'=>$request->email];
+        
+        $user = User::where($data_token)->first();  
+       
+        if ($user!=null) {       
+            if($request->password == decrypt($user->password))
+            {       
+                $token = new Token($data_token);
+                $tokenEncoded = $token->encode();
+                return response()->json(["token" => $tokenEncoded], 201);
+            }   
+        }     
+        return response()->json(["Error" => "No se ha encontrado"], 401);
 
-        //Comprobar que email y password de user son iguales
-            $data = ['email' => $request->email];
-
-            $user = User::where($data)->first();
-
-            if($user->password == $request->password)
-            {
-                //Si son iguales codifico el token
-                $token = new Token($data);
-                $tokenEncode = $token->encode();
-
-                //Devolver la respuesta en formato JSON con el token y código 200
-                return response()->json([
-                "token" => $tokenEncode
-                ],200);
-                var_dump('Login correcto');
-            }
-            return response()->json([
-            "error" => "Usuario incorrecto"
-            ],401);
+            
     }
 
     public function recoverPassword (Request $request){
+
         $user = User::where('email',$request->email)->first();  
         if (isset($user)) {   
             $newPassword = self::randomPassword();
@@ -82,16 +81,16 @@ class UserController extends Controller
                 $user->password = $newPassword;
                 $user->update();
             
-            return response()->json(["Success" => "Se ha reestablecido su contraseña, revise su correo electrónico."]);
+            return response()->json(["Success" => "Se ha restablecido su contraseña, revise su correo electronico."]);
         }else{
-            return response()->json(["Error" => "El email no existe"]);
+            return response()->json(["Error" => "El Email no existe"]);
         }
 
     }
 
-    public function sendEmail ($email, $newPassword){
+    public function sendEmail($email,$newPassword){
         $para      = $email;
-        $titulo    = 'Recuperar contraseña de iFoodie';
+        $titulo    = 'Recuperar contraseña de Bienestapp';
         $mensaje   = 'Se ha establecido "'.$newPassword.'" como su nueva contraseña.';
         mail($para, $titulo, $mensaje);
     }
