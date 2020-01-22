@@ -147,8 +147,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $email = $request->email;
+        $user = User::where('email', $email)->first();
+
+        $user->delete();
+
+            return response()->json([
+                "message" => 'el usuario ha sido eliminado'
+            ], 200);
     }
 }

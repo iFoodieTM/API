@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+
 
 class User extends Model
 {
@@ -10,12 +12,14 @@ class User extends Model
     protected $fillable = ['name', 'email','user_name', 'password', 'photo'];
 
     public function create($request){
+
+    
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->user_name = $request->user_name;
         $user->password = encrypt($request->password);
-        $user->photo = $request->photo;
+        $user->photo = Storage::url($request->photo);
         $user->save();
     }
 
