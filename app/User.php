@@ -5,15 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-
 class User extends Model
 {
     protected $table = 'users';
     protected $fillable = ['name', 'email','user_name', 'password', 'photo'];
 
     public function create($request){
-
-    
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
@@ -27,7 +24,7 @@ class User extends Model
         $users = self::where('email',$email)->get();
         
         foreach ($users as $key => $value) {
-            if($value->email == $email || $value->user_name == $user_name){
+            if($value->email == $email){
                 return true;
             }
         }

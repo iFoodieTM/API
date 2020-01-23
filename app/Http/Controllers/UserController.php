@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Helpers\Token;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -48,7 +49,7 @@ class UserController extends Controller
                 "token" => $tokenEncoded
             ], 201);
         }else{
-            return response()->json(["Error" => "No se pueden crear usuarios con el mismo Email o con el Email vacío"]);
+            return response()->json(["Error" => "No se pueden crear usuarios con el mismo email o con el email vacío"], 400);
         }
     }
 
@@ -67,8 +68,6 @@ class UserController extends Controller
             }   
         }     
         return response()->json(["Error" => "No se ha encontrado"], 401);
-
-            
     }
 
     public function recoverPassword (Request $request){
@@ -83,9 +82,8 @@ class UserController extends Controller
             
             return response()->json(["Success" => "Se ha restablecido su contraseña, revise su correo electronico."]);
         }else{
-            return response()->json(["Error" => "El Email no existe"]);
+            return response()->json(["Error" => "El email no existe"]);
         }
-
     }
 
     public function sendEmail($email,$newPassword){
@@ -97,13 +95,13 @@ class UserController extends Controller
     
     public function randomPassword() {
         $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-        $pass = array(); //remember to declare $pass as an array
-        $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+        $pass = array(); 
+        $alphaLength = strlen($alphabet) - 1; 
         for ($i = 0; $i < 10; $i++) {
             $n = rand(0, $alphaLength);
             $pass[] = $alphabet[$n];
         }
-        return implode($pass); //turn the array into a string
+        return implode($pass);
     }
 
     /**
@@ -138,7 +136,31 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = user::where('email',$request->data_token->email)->first();
+        if (isset($user)) {
+            
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->user_name = $request->user_name;
+            $user->password = $request->password;
+            $user->photo = Storage::url($request->photo);
+
+            if($request->email != $user->email){
+                $user->update();
+                return response()->json(["Success" => "Se ha modificado el usuario."], 200);
+            }
+            if($request->user_name != $user->user_name){
+                $user->update();
+                return response()->json(["Success" => "Se ha modificado el usuario."]);
+            }
+            if($request->password != $user->password){
+                $user->update();
+                return response()->json(["Success" => "Se ha modificado el usuario."]);
+            }   
+            if($request->email == $user->email || $request->user_name == $user->user_name || $request->password == $user->password){
+                return response()->json(["Error" => "No se puede modificar el usuario"]);
+            }   
+        } 
     }
 
     /**
