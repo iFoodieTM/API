@@ -39,22 +39,15 @@ class UserController extends Controller
         $user = new User();
         if (!$user->userExists($request->email)){
             $user->create($request);
-            $data_token = [
-                "email" => $user->email,
-            ];
-            $token = new Token($data_token);
-            
-            $tokenEncoded = $token->encode();
-            return response()->json([
-                "token" => $tokenEncoded
-            ], 201);
+            return $this->login($request);
+
         }else{
             return response()->json(["Error" => "No se pueden crear usuarios con el mismo email o con el email vacío"], 400);
         }
     }
 
     public function login(Request $request){
-        //Buscar el email de los usuarios de la BDD
+        
         $data_token = ['email'=>$request->email];
         
         $user = User::where($data_token)->first();  
