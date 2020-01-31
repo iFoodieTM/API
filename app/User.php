@@ -8,29 +8,33 @@ use Illuminate\Support\Facades\Storage;
 class User extends Model
 {
     protected $table = 'users';
-    protected $fillable = ['email','user_name', 'password', 'photo'];
+    protected $fillable = ['name','email','user_name', 'password', 'photo'];
 
     public function create($request){
         $user = new User;
+        $check_name = $request->name;
+        $check_photo = Storage::url($request->photo);
 
-    if($request->name == null){
+    if(isset($check_name)){
 
+    $user->name = $request->name;
+       
+
+    }else{ 
         $user->name = "Guest";
-
-    }else{$user->name = $request->name;
     
     }
         $user->email = $request->email;
         $user->user_name = $request->user_name;
         $user->password = encrypt($request->password);
 
-        if($request->photo == null){
+        if(isset($check_photo)){
         
-            $user->photo = "fotoprueba.png";
-    
+           
+    $user->photo = Storage::url($request->photo);
         }else{ 
 
-            $user->photo = Storage::url($request->photo);
+             $user->photo = "fotoprueba.png";
         
         }
         $user->save();
