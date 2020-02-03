@@ -18,8 +18,8 @@ class CreateRestaurantsTable extends Migration
             $table->string('email')->unique();
             $table->string('name')->unique();
             $table->string('password', 300);
-            $table->string('photo');
-            $table->string('menu');
+            $table->string('photo')->nullable();
+            $table->string('menu')->nullable();
             $table->longText('description');
             $table->timestamps();
         });

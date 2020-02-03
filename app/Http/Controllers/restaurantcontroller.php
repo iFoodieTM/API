@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use App\User;
+use App\restaurant;
 use App\Helpers\Token;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
-class UserController extends Controller
+class restaurantcontroller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,13 +36,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User();
-        if (!$user->userExists($request->email)){
-            $user->create($request);
+        $restaurant = new restaurant();
+        if (!$restaurant->restaurantExists($request->email)){
+            $restaurant->create_restaurant($request);
             return $this->login($request);
 
         }else{
-            return response()->json(["Error" => "No se pueden crear usuarios con el mismo email o con el email vacío"], 400);
+            return response()->json(["Error" => "No se pueden crear restaurante con el mismo email o con el email vacío"], 400);
         }
     }
 
@@ -50,10 +50,10 @@ class UserController extends Controller
         
         $data_token = ['email'=>$request->email];
         
-        $user = User::where($data_token)->first();  
+        $restaurant = restaurant::where($data_token)->first();  
        
-        if ($user!=null) {       
-            if($request->password == decrypt($user->password))
+        if ($restaurant!=null) {       
+            if($request->password == decrypt($restaurant->password))
             {       
                 $token = new Token($data_token);
                 $tokenEncoded = $token->encode();
@@ -63,15 +63,26 @@ class UserController extends Controller
         return response()->json(["Error" => "No se ha encontrado"], 401);
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $restaurant = restaurant::all();
+        return response()->json(["Success" => $restaurant]);
+    }
     public function recoverPassword (Request $request){
 
-        $user = User::where('email',$request->email)->first();  
-        if (isset($user)) {   
+        $restaurant = restaurant::where('email',$request->email)->first();  
+        if (isset($restaurant)) {   
             $newPassword = self::randomPassword();
-            self::sendEmail($user->email,$newPassword);
+            self::sendEmail($restaurant->email,$newPassword);
             
-                $user->password = encrypt($newPassword);
-                $user->update();
+                $restaurant->password = encrypt($newPassword);
+                $restaurant->update();
             
             return response()->json(["Success" => "Se ha restablecido su contraseña, revise su correo electronico."]);
         }else{
@@ -85,7 +96,7 @@ class UserController extends Controller
         $mensaje   = 'Se ha establecido "'.$newPassword.'" como su nueva contraseña.';
         mail($para, $titulo, $mensaje);
     }
-    
+
     public function randomPassword() {
         $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
         $pass = array(); 
@@ -96,19 +107,6 @@ class UserController extends Controller
         }
         return implode($pass);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {   
-        $user = User::all();
-        return response()->json(["Success" => $user]);
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -129,31 +127,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = user::where('email',$request->data_token->email)->first();
-        if (isset($user)) {
-            
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->user_name = $request->user_name;
-            $user->password = $request->password;
-            $user->photo = Storage::url($request->photo);
-
-            if($request->email != $user->email){
-                $user->update();
-                return response()->json(["Success" => "Se ha modificado el usuario."], 200);
-            }
-            if($request->user_name != $user->user_name){
-                $user->update();
-                return response()->json(["Success" => "Se ha modificado el usuario."]);
-            }
-            if($request->password != $user->password){
-                $user->update();
-                return response()->json(["Success" => "Se ha modificado el usuario."]);
-            }   
-            if($request->email == $user->email || $request->user_name == $user->user_name || $request->password == $user->password){
-                return response()->json(["Error" => "No se puede modificar el usuario"]);
-            }   
-        } 
+        //
     }
 
     /**
@@ -162,12 +136,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
         $email = $request->email;
-        $user = User::where('email', $email)->first();
+        $restaurant = restaurant::where('email', $email)->first();
 
-        $user->delete();
+        $restaurant->delete();
 
             return response()->json([
                 "message" => 'el usuario ha sido eliminado'
