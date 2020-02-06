@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
+use App\recipe;
+use App\Helpers\Token;
+use Illuminate\Support\Facades\Storage;
 
 class recipecontroller extends Controller
 {
@@ -34,7 +36,10 @@ class recipecontroller extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $recipe = new recipe();
+        $recipe->create_recipe($request);
+  
     }
 
     /**

@@ -37,12 +37,27 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $user = new User();
-        if (!$user->userExists($request->email)){
-            $user->create($request);
-            return $this->login($request);
+        if (!$user->userExists($request->email)) {
+            $user->menu = Storage::url($request->menu);
 
-        }else{
-            return response()->json(["Error" => "No se pueden crear usuarios con el mismo email o con el email vacío"], 400);
+            if ($request->rol == 3) {
+                $user->create_admin($request);
+                return $this->login($request);
+            }
+    
+            if (((isset($menu))&& ($request->rol != 3))||($request->rol == 2)) {
+                $user->create_restaurant($request);
+                return $this->login($request);
+            }
+    
+            if (((!isset($menu))&& ($request->rol != 3))||($request->rol == 1)) {
+                $user->rol = 1;
+                $user->create($request);
+                return $this->login($request);
+
+            } else {
+                return response()->json(["Error" => "No se pueden crear usuarios con el mismo email o con el email vacío"], 400);
+            }
         }
     }
 

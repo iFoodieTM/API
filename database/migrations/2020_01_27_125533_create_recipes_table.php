@@ -23,6 +23,10 @@ class CreateRecipesTable extends Migration
             $table->string('photo')->nullable();
             $table->longText('description');
             $table->text('steps');
+            $table->integer('user_id')->unsigned()->nullable();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+           
             $table->timestamps();
         });
     }
