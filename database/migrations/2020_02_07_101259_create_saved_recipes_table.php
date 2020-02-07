@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRecipeHasTagTable extends Migration
+class CreateSavedRecipesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateRecipeHasTagTable extends Migration
      */
     public function up()
     {
-        Schema::create('recipe_has_tag', function (Blueprint $table) {
+        Schema::create('saved_recipes', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class CreateRecipeHasTagTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recipe_has_tag');
+        Schema::dropIfExists('saved_recipes');
     }
 }
