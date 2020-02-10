@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class User extends Model
 {
     protected $table = 'users';
-    protected $fillable = ['name','email','user_name', 'password', 'photo','menu','description'];
+    protected $fillable = ['id','name','email','user_name', 'password', 'photo','menu','description'];
 
     public function create($request){
         $user = new User;
@@ -32,13 +32,11 @@ class User extends Model
         
 
         if(isset($check_photo)){
-        
-           
+                  
     $user->photo = Storage::url($request->photo);
         }else{ 
 
-             $user->photo = "fotoprueba.png";
-        
+             $user->photo = "fotoprueba.png";        
         }
         $user->save();
     }

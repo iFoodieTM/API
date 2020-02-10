@@ -20,8 +20,8 @@ class CreateReportsTable extends Migration
             $table->integer('reporter_user_id')->unsigned()->nullable();
             $table->integer('reported_user_id')->unsigned()->nullable();
 
-            $table->foreign('reporter_user_id')->references('id')->on('recipes')->onDelete('cascade');
-            $table->foreign('reported_user_id')->references('id')->on('recipes')->onDelete('cascade');
+            $table->foreign('reporter_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('reported_user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

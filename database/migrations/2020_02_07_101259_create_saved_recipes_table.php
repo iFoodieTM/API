@@ -16,6 +16,12 @@ class CreateSavedRecipesTable extends Migration
         Schema::create('saved_recipes', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->integer('recipe_id')->unsigned()->nullable();
+            $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
         });
     }
 

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class recipe extends Model
 {
     protected $table = 'recipes';
-    protected $fillable = ['name','rating', 'time', 'difficulty','video','steps','description','photo','user_id','restaurant_id'];
+    protected $fillable = ['id','name','rating', 'time', 'difficulty','video','description','photo','user_id'];
 
     public function create_recipe($request)
     {
@@ -18,25 +18,11 @@ class recipe extends Model
         $check_photo = Storage::url($request->photo);
 
         $user = User::where('email', $request->data_token->email)->first();
-        $restaurant = restaurant::where('email', $request->data_token->email)->first();
 
-        if(isset($user)){
-
-            $recipe->user_id = $user->id;
-
-        }
-
-        if(isset($restaurant))
-        {
-
-            $recipe->restaurant_id = $restaurant->id;
-    
-        }
-
+        $recipe->user_id = $user->id;
         $recipe->name = $request->name;
         $recipe->time = $request->time;
         $recipe->difficulty = $request->difficulty;
-        $recipe->steps = $request->steps;
         $recipe->description = $request->description;
         $recipe->video = $request->video;
         $recipe->rating = $request->rating;

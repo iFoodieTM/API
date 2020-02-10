@@ -45,12 +45,12 @@ class UserController extends Controller
                 return $this->login($request);
             }
     
-            if (((isset($menu))&& ($request->rol != 3))||($request->rol == 2)) {
+            if (((isset($user->menu))&& ($request->rol != 3))||($request->rol == 2)) {
                 $user->create_restaurant($request);
                 return $this->login($request);
             }
     
-            if (((!isset($menu))&& ($request->rol != 3))||($request->rol == 1)) {
+            if (((!isset($user->menu))&& ($request->rol != 3))||($request->rol == 1)) {
                 $user->rol = 1;
                 $user->create($request);
                 return $this->login($request);

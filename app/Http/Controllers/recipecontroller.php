@@ -38,6 +38,9 @@ class recipecontroller extends Controller
     {
 
         $recipe = new recipe();
+
+        //aqui falta:
+        // como añadir steps a la receta
         $recipe->create_recipe($request);
   
     }
