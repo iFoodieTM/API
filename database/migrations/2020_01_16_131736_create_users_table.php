@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->integer('rol');
             $table->string('menu')->nullable($value = true);
             $table->longText('description')->nullable($value = true);
+            $table->boolean('banned')->default($value=false);
             $table->timestamps();
         });
     }

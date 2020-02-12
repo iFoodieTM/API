@@ -16,16 +16,15 @@ class User extends Model
         $check_name = $request->name;
         $check_photo = Storage::url($request->photo);
 
-    if(isset($check_name)){
+        if(isset($check_name)){
 
-    $user->name = $request->name;
-       
+            $user->name = $request->name;      
 
-    }else{ 
+        }else{ 
 
-        $user->name = "Guest";
-    
-    }
+            $user->name = "Guest";
+        
+        }
         $user->email = $request->email;
         $user->user_name = $request->user_name;
         $user->password = encrypt($request->password);
@@ -33,7 +32,7 @@ class User extends Model
 
         if(isset($check_photo)){
                   
-    $user->photo = Storage::url($request->photo);
+            $user->photo = Storage::url($request->photo);
         }else{ 
 
              $user->photo = "fotoprueba.png";        
@@ -48,8 +47,9 @@ class User extends Model
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = encrypt($request->password);
-        // aqui falta solucionar que sean varias fotos  para la carta del usere
-        $user->menu = Storage::url($request->menu);
+        // aqui falta solucionar que sean varias fotos  para la carta del user
+        //$user->menu = Storage::url($request->menu);
+        $user->menu = $request->menu;
         $user->description = $request->description;
 
         if(isset($check_photo)){
@@ -70,6 +70,17 @@ class User extends Model
         $user->email = $request->email;
         $user->user_name = $request->user_name;
         $user->password = encrypt($request->password);
+
+        $check_photo = Storage::url($request->photo);
+
+        if(isset($check_photo)){
+                  
+            $user->photo = Storage::url($request->photo);
+                }else{ 
+        
+                     $user->photo = "fotoprueba.png";        
+                }
+
         $user->save();
 
     }

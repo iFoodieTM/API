@@ -39,72 +39,85 @@ class UserController extends Controller
         $user = new User();
         
         if (!$user->userExists($request->email)) {
+            if (isset($request->rol)) {
+                switch ($request->rol) {
+                case  1:
+                    $user->create($request);
+                    return $this->login($request);
+                    break;
 
-            if ($request->rol == 3) {
-                $user->create_admin($request);
-                return $this->login($request);
-            }
-    
-            if (((isset($request->menu))&& ($request->rol != 3))||($request->rol == 2)) {
-                $user->create_restaurant($request);
-                return $this->login($request);
-            }
-    
-            if (((!isset($request->menu))&& ($request->rol != 3))||($request->rol == 1)) {
-                $user->rol = 1;
-                $user->create($request);
-                return $this->login($request);
+                case 2:
+                    $user->create_restaurant($request);
+                    return $this->login($request);
+                    break;
 
+                case 3:
+                    $user->create_admin($request);
+                    return $this->login($request);
+                    break;
+                
+                default:
+                    return response()->json(["Error" => "valor de rol no coincide con ninguno ya establecido"], 400);
+                    break;
+                }
             } else {
-                return response()->json(["Error" => "No se pueden crear usuarios con el mismo email o con el email vacío"], 400);
+                if (isset($request->menu)) {
+                    $user->create_restaurant($request);
+                    return $this->login($request);
+                } else {
+                    $user->create($request);
+                    return $this->login($request);
+                }
             }
         }
+        return response()->json(["Error" => "No se pueden crear usuarios con el mismo email o con el email vacío"], 400);
     }
 
-    public function login(Request $request){
-        
+    public function login(Request $request)
+    {
         $data_token = ['email'=>$request->email];
         
-        $user = User::where($data_token)->first();  
+        $user = User::where($data_token)->first();
        
-        if ($user!=null) {       
-            if($request->password == decrypt($user->password))
-            {       
+        if ($user!=null) {
+            if ($request->password == decrypt($user->password)) {
                 $token = new Token($data_token);
                 $tokenEncoded = $token->encode();
                 return response()->json(["token" => $tokenEncoded], 201);
-            }   
-        }     
+            }
+        }
         return response()->json(["Error" => "No se ha encontrado"], 401);
     }
 
-    public function recoverPassword (Request $request){
-
-        $user = User::where('email',$request->email)->first();  
-        if (isset($user)) {   
+    public function recoverPassword(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        if (isset($user)) {
             $newPassword = self::randomPassword();
-            self::sendEmail($user->email,$newPassword);
+            self::sendEmail($user->email, $newPassword);
             
-                $user->password = encrypt($newPassword);
-                $user->update();
+            $user->password = encrypt($newPassword);
+            $user->update();
             
             return response()->json(["Success" => "Se ha restablecido su contraseña, revise su correo electronico."]);
-        }else{
+        } else {
             return response()->json(["Error" => "El email no existe"]);
         }
     }
 
-    public function sendEmail($email,$newPassword){
+    public function sendEmail($email, $newPassword)
+    {
         $para      = $email;
         $titulo    = 'Recuperar contraseña de ifoodie';
         $mensaje   = 'Se ha establecido "'.$newPassword.'" como su nueva contraseña.';
         mail($para, $titulo, $mensaje);
     }
     
-    public function randomPassword() {
+    public function randomPassword()
+    {
         $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-        $pass = array(); 
-        $alphaLength = strlen($alphabet) - 1; 
+        $pass = array();
+        $alphaLength = strlen($alphabet) - 1;
         for ($i = 0; $i < 10; $i++) {
             $n = rand(0, $alphaLength);
             $pass[] = $alphabet[$n];
@@ -119,9 +132,34 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
+    {
         $user = User::all();
         return response()->json(["Success" => $user]);
+    }
+
+    public function show_users(Request $request)
+    {
+        $users = User::where('rol',1)->get();
+        return response()->json(["Success" => $users]);
+    }
+
+    public function show_admin(Request $request)
+    {
+        $users = User::where('rol',3)->get();
+        return response()->json(["Success" => $users]);
+    }
+
+    public function show_restaurant()
+    {
+        $users = User::where(['rol'=>2])->get();
+
+        foreach ($users as $user){
+           // var_dump($user->menu);
+            var_dump(json_decode($user->menu));
+        }exit;
+
+
+        return response()->json(["Success" => $users]);
     }
 
     /**
@@ -144,31 +182,30 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = user::where('email',$request->data_token->email)->first();
+        $user = user::where('email', $request->data_token->email)->first();
         if (isset($user)) {
-            
             $user->name = $request->name;
             $user->email = $request->email;
             $user->user_name = $request->user_name;
             $user->password = $request->password;
             $user->photo = Storage::url($request->photo);
 
-            if($request->email != $user->email){
+            if ($request->email != $user->email) {
                 $user->update();
                 return response()->json(["Success" => "Se ha modificado el usuario."], 200);
             }
-            if($request->user_name != $user->user_name){
+            if ($request->user_name != $user->user_name) {
                 $user->update();
                 return response()->json(["Success" => "Se ha modificado el usuario."]);
             }
-            if($request->password != $user->password){
+            if ($request->password != $user->password) {
                 $user->update();
                 return response()->json(["Success" => "Se ha modificado el usuario."]);
-            }   
-            if($request->email == $user->email || $request->user_name == $user->user_name || $request->password == $user->password){
+            }
+            if ($request->email == $user->email || $request->user_name == $user->user_name || $request->password == $user->password) {
                 return response()->json(["Error" => "No se puede modificar el usuario"]);
-            }   
-        } 
+            }
+        }
     }
 
     /**
@@ -184,8 +221,42 @@ class UserController extends Controller
 
         $user->delete();
 
-            return response()->json([
+        return response()->json([
                 "message" => 'el usuario ha sido eliminado'
             ], 200);
+    }
+
+    public function ban(Request $request)
+    {
+        $email = $request->email;
+        $user = User::where('email', $email)->first();
+
+        if (isset($user)) {
+            $user->banned = 1;
+            $user->update();
+            return response()->json([
+                "message" => 'el usuario ha sido llevado ante la justicia'
+            ], 200);
+        }
+        return response()->json([
+            "message" => 'el usuario no existe'
+        ], 400);
+    }
+
+    public function unban(Request $request)
+    {
+        $email = $request->email;
+        $user = User::where('email', $email)->first();
+
+        if (isset($user)) {
+            $user->banned = 0;
+            $user->update();
+            return response()->json([
+                "message" => 'haya perdon para todos'
+            ], 200);
+        }
+        return response()->json([
+            "message" => 'el usuario no existe'
+        ], 400);
     }
 }
