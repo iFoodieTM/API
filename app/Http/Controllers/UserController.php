@@ -152,12 +152,12 @@ class UserController extends Controller
     public function show_restaurant()
     {
         $users = User::where(['rol'=>2])->get();
-
+/*
         foreach ($users as $user){
            // var_dump($user->menu);
             var_dump(json_decode($user->menu));
         }exit;
-
+*/
 
         return response()->json(["Success" => $users]);
     }

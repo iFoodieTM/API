@@ -21,8 +21,6 @@ Route::apiResource('users', 'UserController');
 Route::post('store', 'UserController@store');
 Route::post('login', 'UserController@login');
 Route::post('recoverPassword','UserController@recoverPassword');
-Route::post('ban','UserController@ban');
-Route::post('unban','UserController@unban');
 Route::get('show_restaurant','UserController@show_restaurant');
 Route::get('show_admin','UserController@show_admin');
 Route::get('show_users','UserController@show_users');
@@ -31,4 +29,9 @@ Route::group(['middleware' => ['auth']], function (){
 
     Route::apiResource('recipes', 'recipecontroller');
     
+});
+
+Route::group(['middleware' => ['authAdmin']], function (){    
+	Route::post('ban','UserController@ban');
+	Route::post('unban','UserController@unban');
 });
