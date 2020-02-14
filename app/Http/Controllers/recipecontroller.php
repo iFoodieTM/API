@@ -42,6 +42,7 @@ class recipecontroller extends Controller
         //aqui falta:
         // como añadir steps a la receta
         $recipe->create_recipe($request);
+        return response()->json(["Success" => "Se ha creado la receta"], 200);
   
     }
 
