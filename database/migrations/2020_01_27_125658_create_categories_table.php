@@ -15,12 +15,9 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
+           $table->string('photo')->nullable();
             $table->string('name')->unique();
-
-            $table->integer('recipe_id')->unsigned()->nullable();
-
-            $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

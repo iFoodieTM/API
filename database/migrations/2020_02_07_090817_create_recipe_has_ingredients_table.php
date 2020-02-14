@@ -17,9 +17,9 @@ class CreateRecipeHasIngredientsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             
-            $table->integer('recipe_id')->unsigned()->nullable();
+            $table->integer('recipe_id')->unsigned();
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
-            $table->integer('ingredient_id')->unsigned()->nullable();
+            $table->integer('ingredient_id')->unsigned();
             $table->foreign('ingredient_id')->references('id')->on('ingredients')->onDelete('cascade');
         });
     }
