@@ -139,12 +139,7 @@ class UserController extends Controller
 
     public function show_user(Request $request)
     {
-        $user = User::all();
-        return response()->json(["Success" => $user]);
-    }
 
-    public function show_users(Request $request)
-    {
         $user = User::where('email',$request->email)->first();
 
         if (isset($user)) 
@@ -159,6 +154,13 @@ class UserController extends Controller
 
         }
         return response()->jason(["error"=> "no hay usuario que mostrar"]);
+
+    }
+
+    public function show_users(Request $request)
+    {
+        $user = User::all();
+        return response()->json(["Success" => $user]);
     }
 
     public function show_admin(Request $request)

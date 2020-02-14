@@ -24,6 +24,7 @@ Route::post('recoverPassword','UserController@recoverPassword');
 Route::get('show_restaurant','UserController@show_restaurant');
 Route::get('show_admin','UserController@show_admin');
 Route::get('show_users','UserController@show_users');
+Route::get('show_user','UserController@show_user');
 
 Route::group(['middleware' => ['auth']], function (){
 
