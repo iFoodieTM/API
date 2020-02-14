@@ -97,7 +97,7 @@ class UserController extends Controller
         $user = User::where($data_token)->first();
        
         if ($user!=null){
-            
+
             if($user->rol!=3){
 
                 return response()->json(["Error" => "este usuario no es un usuario administrador"], 401);
@@ -171,13 +171,9 @@ class UserController extends Controller
             
             return response()->json(["Success" => $user]);
 
-        }else{
-
-            $user = User::where('email',$request->data_token->email)->first();
-            return response()->json(["Success" => $user]);
-
         }
-        return response()->jason(["error"=> "no hay usuario que mostrar"]);
+
+        return response()->jason(["error"=> "no hay usario que coincida con el email provisto"]);
 
     }
 
@@ -201,9 +197,9 @@ class UserController extends Controller
             var_dump($user->menu);
             var_dump(json_decode($user->menu));
         }exit;
-
-        return response()->json(["Success" => $users]);
         */
+        return response()->json(["Success" => $users]);
+        
     }
 
     /**

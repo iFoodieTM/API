@@ -70,6 +70,7 @@ class User extends Model
         $user->email = $request->email;
         $user->user_name = $request->user_name;
         $user->password = encrypt($request->password);
+        $user->name = 'admin';
 
         $check_photo = Storage::url($request->photo);
 
