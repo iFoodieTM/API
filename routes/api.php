@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::apiResource('users', 'UserController');
 Route::post('store', 'UserController@store');
 Route::post('login', 'UserController@login');
+Route::post('login_admin', 'UserController@login_admin');
 Route::post('recoverPassword','UserController@recoverPassword');
 Route::get('show_restaurant','UserController@show_restaurant');
 Route::get('show_admin','UserController@show_admin');

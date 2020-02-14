@@ -89,6 +89,30 @@ class UserController extends Controller
         return response()->json(["Error" => "No se ha encontrado"], 401);
     }
 
+    public function login_admin(Request $request)
+    {
+
+        $data_token = ['email'=>$request->email];
+        
+        $user = User::where($data_token)->first();
+       
+        if ($user!=null){
+            
+            if($user->rol!=3){
+
+                return response()->json(["Error" => "este usuario no es un usuario administrador"], 401);
+
+            }
+
+            if ($request->password == decrypt($user->password)) {
+                $token = new Token($data_token);
+                $tokenEncoded = $token->encode();
+                return response()->json(["token" => $tokenEncoded], 201);
+            }
+        }
+        return response()->json(["Error" => "No se ha encontrado este usuario"], 401);
+    }
+
     public function recoverPassword(Request $request)
     {
         $user = User::where('email', $request->email)->first();
@@ -228,11 +252,15 @@ class UserController extends Controller
                         if ($user->rol==3||$user->rol==1) {
                             $user->user_name = $request->user_name;
                         }
-                        
+
                         $user->update();
                         return response()->json(["succces" => "user edited"]);
                     }
-                }
+                } 
+
+                $user->update();
+                return response()->json(["succces" => "user edited"]);
+
             }else{
 
                 $user->name = $request->name;
@@ -259,11 +287,14 @@ class UserController extends Controller
                         return response()->json(["succces" => "user edited"]);
                     }
                 }
+                $user->update();
+                return response()->json(["succces" => "user edited"]);
                 }
 
             } else {
             return response()->json(["Error" => "El email no existe"]);
         }
+
     }
 
     /**

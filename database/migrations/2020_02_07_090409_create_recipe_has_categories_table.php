@@ -17,9 +17,9 @@ class CreateRecipeHasCategoriesTable extends Migration
             $table->increments('id');
             $table->timestamps();
 
-            $table->integer('recipe_id')->unsigned()->nullable();
+            $table->integer('recipe_id')->unsigned();
             $table->foreign('recipe_id')->references('id')->on('recipes')->onDelete('cascade');
-            $table->integer('category_id')->unsigned()->nullable();
+            $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
