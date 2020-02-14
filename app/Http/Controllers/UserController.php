@@ -137,10 +137,28 @@ class UserController extends Controller
         return response()->json(["Success" => $user]);
     }
 
+    public function show_user(Request $request)
+    {
+        $user = User::all();
+        return response()->json(["Success" => $user]);
+    }
+
     public function show_users(Request $request)
     {
-        $users = User::where('rol',1)->get();
-        return response()->json(["Success" => $users]);
+        $user = User::where('email',$request->email)->first();
+
+        if (isset($user)) 
+        {
+            
+            return response()->json(["Success" => $user]);
+
+        }else{
+
+            $user = User::where('email',$request->data_token->email)->first();
+            return response()->json(["Success" => $user]);
+
+        }
+        return response()->jason(["error"=> "no hay usuario que mostrar"]);
     }
 
     public function show_admin(Request $request)
@@ -153,13 +171,13 @@ class UserController extends Controller
     {
         $users = User::where(['rol'=>2])->get();
 
-        foreach ($users as $user){
-           // var_dump($user->menu);
+       /* foreach ($users as $user){
+            var_dump($user->menu);
             var_dump(json_decode($user->menu));
         }exit;
 
-
         return response()->json(["Success" => $users]);
+        */
     }
 
     /**
@@ -180,31 +198,69 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $user = user::where('email', $request->data_token->email)->first();
-        if (isset($user)) {
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->user_name = $request->user_name;
-            $user->password = $request->password;
-            $user->photo = Storage::url($request->photo);
+        $user = User::where('email', $request->data_token->email)->first();
+        if (isset($user)) 
+        {
+            if ((isset($request->email)&&($user->rol=3))) 
+            {
+                $user = User::where('email', $request->email)->first();
 
-            if ($request->email != $user->email) {
-                $user->update();
-                return response()->json(["Success" => "Se ha modificado el usuario."], 200);
-            }
-            if ($request->user_name != $user->user_name) {
-                $user->update();
-                return response()->json(["Success" => "Se ha modificado el usuario."]);
-            }
-            if ($request->password != $user->password) {
-                $user->update();
-                return response()->json(["Success" => "Se ha modificado el usuario."]);
-            }
-            if ($request->email == $user->email || $request->user_name == $user->user_name || $request->password == $user->password) {
-                return response()->json(["Error" => "No se puede modificar el usuario"]);
-            }
+                $user->name = $request->name;
+                $user->password = encrypt($request->password);
+                $user->menu = $request->menu;
+                $user->description = $request->description;
+                $user->photo = Storage::url($request->photo);
+                
+            
+                if ((isset($request->user_name)&&($request->user_name != $user->user_name))||$user->rol==2) 
+                {
+                    $user_repeated = User::where('user_name', $request->user_name)->first();
+
+                    if (isset($user_repeated)&&!$user->rol==2) 
+                    {
+                        return response()->json(["Error" => "No se puede modificar el usuario, ese user_name ya esta en uso"]);
+
+                    } else {
+                        if ($user->rol==3||$user->rol==1) {
+                            $user->user_name = $request->user_name;
+                        }
+                        
+                        $user->update();
+                        return response()->json(["succces" => "user edited"]);
+                    }
+                }
+            }else{
+
+                $user->name = $request->name;
+                $user->password = encrypt($request->password);
+                $user->menu = $request->menu;
+                $user->description = $request->description;
+                $user->photo = Storage::url($request->photo);
+                
+            
+                if ((isset($request->user_name)&&($request->user_name != $user->user_name))||$user->rol==2) 
+                {
+                    $user_repeated = User::where('user_name', $request->user_name)->first();
+
+                    if (isset($user_repeated)&&!$user->rol==2) 
+                    {
+                        return response()->json(["Error" => "No se puede modificar el usuario, ese user_name ya esta en uso"]);
+
+                    } else {
+                        if ($user->rol==3||$user->rol==1) {
+                            $user->user_name = $request->user_name;
+                        }
+                        
+                        $user->update();
+                        return response()->json(["succces" => "user edited"]);
+                    }
+                }
+                }
+
+            } else {
+            return response()->json(["Error" => "El email no existe"]);
         }
     }
 

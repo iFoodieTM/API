@@ -92,7 +92,8 @@ class User extends Model
         
         return $rol;
     }
-    public function userExists($email){
+    public function userExists($email)
+    {
         $users = self::where('email',$email)->get();
         
         foreach ($users as $key => $value) {
