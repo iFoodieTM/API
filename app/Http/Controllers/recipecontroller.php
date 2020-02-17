@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\recipe;
+use App\Ingredient;
+use App\Step;
 use App\Helpers\Token;
 use Illuminate\Support\Facades\Storage;
 
@@ -38,10 +40,13 @@ class recipecontroller extends Controller
     {
 
         $recipe = new recipe();
+        $step= new step();
 
         //aqui falta:
         // como añadir steps a la receta
-        $recipe->create_recipe($request);
+       $step->create_step($recipe->create_recipe($request)+$request);
+        
+        
         return response()->json(["Success" => "Se ha creado la receta"], 200);
   
     }

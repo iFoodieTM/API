@@ -38,6 +38,14 @@ class recipe extends Model
                  }
 
         $recipe->save();
+
+        $recipe = self::where(('name' == $recipe->name)&&('time'== $recipe->time)&&('difficulty'== $recipe->difficulty)&&
+        ('description'== $recipe->description)&&('video'== $recipe->video)&&('photo'== $request->photo))->first();
+
+        $recipe_id = $recipe->id;
+
+        return $recipe_id;
+
     }
 
     public function recipe_exist($id){
