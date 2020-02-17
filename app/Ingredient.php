@@ -9,7 +9,8 @@ class Ingredient extends Model
     protected $table = 'ingredients';
     protected $fillable = ['id','name'];
 
-    public function create_ingredient($request){
+    public function create_ingredient($request)
+    {
 
         $ingredient = new Ingredient;
 
@@ -19,9 +20,9 @@ class Ingredient extends Model
         
     }
 
-    public function ingredient_exist($name){
-
-        
+    public function ingredient_exist($name)
+    {
+      
         $ingredients = self::where('name',$name)->get();
         
         foreach ($ingredients as $key => $value) {

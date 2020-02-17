@@ -39,10 +39,12 @@ class ingredientController extends Controller
     {
         $ingredient = new Ingredient;
 
-        if (!$ingredient->ingredient_exists($request->name))
+        if (!$ingredient->ingredient_exist($request->name))
         {
             $ingredient->create_ingredient($request);
-
+            return response()->json(["Success" => "Se ha creado el ingrediente: ".$request->name], 200);
+        }else{
+            return response()->json(["error" => "ya existe el ingrediente: ".$request->name], 400);
         }
     }
 
@@ -78,19 +80,29 @@ class ingredientController extends Controller
      */
     public function update(Request $request)
     {
-        $ingredient = User::where('name', $request->name)->first();
+        $ingredient = Ingredient::where('name', $request->name)->first();
 
         if (isset($ingredient)) 
         {
 
             if ($ingredient->name != $request->new_name) 
+            
             {
-                $ingredient->name = $request->new_name;
-                $ingredient->update();
+                if (!$ingredient->ingredient_exist($request->new_name)) {
+                    $ingredient->name = $request->new_name;
+                    $ingredient->update();
+                    return response()->json(["succes" => 'el ingrediente se ha modificado'], 200);
+
+                }else{
+                    return response()->json(["error" => 'ya existe un ingrediente con ese nombre'], 400);
+                }
+                
+            }else{
+                return response()->json(["error" => 'el ingrediente ya tiene ese nombre'], 400);
             }
 
         }else{
-            return response()->json(["error" => 'el ingrediente no existe'], 400);
+            return response()->json(["error" => 'el ingrediente a modificar no existe'], 400);
         }
       
     }
@@ -105,11 +117,17 @@ class ingredientController extends Controller
     {
      
         $ingredient = User::where('name', $request->name)->first();
+        
+        if (issset($ingredient)) {
+            
+            return response()->json(["message" => 'el ingrediente ha sido eliminado'], 200);
+            $ingredient->delete();
 
-        $ingredient->delete();
+        }else{
 
-        return response()->json([
-                "message" => 'el ingrediente ha sido eliminado'
-            ], 200);
+            return response()->json(["error" => 'el ingrediente a eliminar no existe'], 400);
+
+        }
+
     }
 }
