@@ -59,6 +59,13 @@ class ingredientController extends Controller
         $ingredients = Ingredient::all();
         return response()->json(["Success" => $ingredients]);
     }
+    public function getIdIngredient(Request $request)
+    {
+   
+        $ingredient = new Ingredient();
+        $idIngredients = $ingredient->get_id_ingredient($request->name);
+        return response()->json(["id" => $idIngredients]);
+    }
 
     /**
      * Show the form for editing the specified resource.
