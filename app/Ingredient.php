@@ -31,7 +31,22 @@ class Ingredient extends Model
             }
         }
         return false;
+    }
 
+    public function get_id_ingredient($name){
+
+        if (self::ingredient_exist($name)) {
+            $ingredient = self::where('name',$name)->first();
+            return $ingredient->id;
+        }else{
+            $ingredient = new Ingredient;
+            $ingredient->name = $name;
+            $ingredient->save();
+
+            $ingredientCreated = self::where('name',$name)->first();
+            return $ingredientCreated->id;
+        }
+        return "Han habido errores";
     }
 
 
