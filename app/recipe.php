@@ -10,6 +10,8 @@ class recipe extends Model
     protected $table = 'recipes';
     protected $fillable = ['id','name','rating', 'time', 'difficulty','video','description','photo','user_id'];
 
+
+
     public function create_recipe($request)
     {
 
@@ -37,4 +39,12 @@ class recipe extends Model
 
         $recipe->save();
     }
+
+    public function recipe_exist($id){
+
+
+    }
+
+
+
 }

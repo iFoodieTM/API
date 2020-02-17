@@ -79,8 +79,10 @@ class UserController extends Controller
         
         $user = User::where($data_token)->first();
        
-        if ($user!=null) {
-            if ($request->password == decrypt($user->password)) {
+        if ($user!=null) 
+        {
+            if ($request->password == decrypt($user->password)) 
+            {
                 $token = new Token($data_token);
                 $tokenEncoded = $token->encode();
                 return response()->json(["token" => $tokenEncoded], 201);
@@ -96,9 +98,11 @@ class UserController extends Controller
         
         $user = User::where($data_token)->first();
        
-        if ($user!=null){
+        if ($user!=null)
+        {
 
-            if($user->rol!=3){
+            if($user->rol!=3)
+            {
 
                 return response()->json(["Error" => "este usuario no es un usuario administrador"], 401);
 

@@ -1,12 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Step;
 use Illuminate\Http\Request;
-use App\recipe;
-use App\Helpers\Token;
-use Illuminate\Support\Facades\Storage;
 
-class recipecontroller extends Controller
+class StepController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,14 +34,9 @@ class recipecontroller extends Controller
      */
     public function store(Request $request)
     {
-
-        $recipe = new recipe();
-
-        //aqui falta:
-        // como añadir steps a la receta
-        $recipe->create_recipe($request);
-        return response()->json(["Success" => "Se ha creado la receta"], 200);
-  
+        $step = new Step;
+        $step->create_step($request);
+        return response()->json(["succes" => "Paso añadido."], 400);
     }
 
     /**
@@ -55,6 +48,14 @@ class recipecontroller extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function show_recipe_steps(Request $request)
+    {
+
+       $recipe_steps = Step::where('recipe_id',$request->recipe_id)->get();
+       return response()->json(["succes" => $recipe_steps], 200);
+
     }
 
     /**
@@ -88,19 +89,6 @@ class recipecontroller extends Controller
      */
     public function destroy($id)
     {
-        $recipe = new recipe();
-
-            $recipe = recipe::where('id',$request->id)->first();
-            if (isset($recipe))
-            {  
-            $recipe->delete();
-            return response()->json(["Success" => "Se ha eliminado la receta: "], 200);
-
-        }else{
-
-             return response()->json(["Error" => "La receta no existe."], 400);
-             
-        }
+        //
     }
-    }
-
+}
