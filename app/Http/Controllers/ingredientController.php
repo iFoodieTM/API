@@ -57,7 +57,7 @@ class ingredientController extends Controller
     public function show($id)
     {
         $ingredients = Ingredient::all();
-        return response()->json(["Success" => $ingredients]);
+        return response()->json([$ingredients]);
     }
     public function getIdIngredient(Request $request)
     {
@@ -65,6 +65,12 @@ class ingredientController extends Controller
         $ingredient = new Ingredient();
         $idIngredients = $ingredient->get_id_ingredient($request->name);
         return response()->json(["id" => $idIngredients]);
+    }
+    public function getIngredients(){
+
+        $ingredients = new Ingredient();
+        $ingredients = Ingredient::all();
+        return $ingredients;
     }
 
     /**
