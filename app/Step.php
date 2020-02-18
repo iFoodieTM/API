@@ -13,16 +13,14 @@ class Step extends Model
 
     public function create_step($request)
     {
-        $recipe = recipe::where('id',$request->recipe_id)->first();
+        //$recipe = recipe::where('id',$request->recipe_id)->first();
         $step = new Step;
         $step->step_number = $request->step_number;
         $step->instructions = $request->instructions;
+        $step->recipe_id = $request->recipe_id;
         $step->save();
 
     }
 
-}
-if (){
-	
 }
 

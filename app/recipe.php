@@ -9,6 +9,9 @@ class recipe extends Model
 {
     protected $table = 'recipes';
     protected $fillable = ['id','name','rating', 'time', 'difficulty','video','description','photo','user_id'];
+    protected $casts = [
+        'id' => 'Integer',
+    ];
 
 
 
@@ -38,14 +41,12 @@ class recipe extends Model
                  }
 
         $recipe->save();
-
-        $recipe = self::where(('name' == $recipe->name)&&('time'== $recipe->time)&&('difficulty'== $recipe->difficulty)&&
-        ('description'== $recipe->description)&&('video'== $recipe->video)&&('photo'== $request->photo))->first();
-
         $recipe_id = $recipe->id;
 
-        return $recipe_id;
+        //var_dump($recipe_id);exit;
+        //$new_recipe = self::where('name' ,$request->name)->where('time', $request->time)->where('difficulty', $request->difficulty)->where('description', $request->description)->where('video', $request->video)->where('photo', $request->photo)->first();
 
+        return $recipe_id;
     }
 
     public function recipe_exist($id){
