@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\RecipeHasIngredient;
+use App\ingredientController;
 
 class RecipeHasIngredientController extends Controller
 {
@@ -42,6 +43,24 @@ class RecipeHasIngredientController extends Controller
         $recipeHasIngrecient = new RecipeHasIngrecient;
         $recipeHasIngrecient->createFromIds($id_recipe,$id_ingredient);
     }
+    public function getRecipes($id_recipe){
+        
+        $ingredientController = new ingredientController()
+        $ingredients = $ingredientController->getIngredients();
+        $ingredientsFromRecipe = array();
+
+        $ingredientsID = new RecipeHasIngredient();
+        $ingredientsID = $ingredientsID->getIdIngredients($id_recipe);
+
+        foreach ($ingredientsID as $key => $ids) {
+            foreach ($ingredients as $key => $ingredient) {
+                if ($ids->recipe_id == $ingredient->id) {
+                     array_push($ingredientsFromRecipe, $ingredient);
+                }               
+            }
+        }        
+        return $ingredientsFromRecipe;
+    }
 
     /**
      * Display the specified resource.
@@ -51,7 +70,7 @@ class RecipeHasIngredientController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**

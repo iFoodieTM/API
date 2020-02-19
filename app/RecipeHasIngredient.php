@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Ingredient;
 
 class RecipeHasIngredient extends Model
 {
@@ -19,5 +20,11 @@ class RecipeHasIngredient extends Model
         $recipeHasIngrecient->name = $id_ingredient;
         $recipeHasIngrecient->save();
         
+    }
+
+    public function getIdIngredients($id_recipe){
+
+    	$ingredientsID = self::where('recipe_id',$id_recipe)->get();
+		return $ingredientsID;
     }
 }
