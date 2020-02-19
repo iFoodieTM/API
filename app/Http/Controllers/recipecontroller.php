@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\recipe;
 use App\Ingredient;
+use App\Http\Controllers\RecipeHasIngredientController;
 use App\Step;
 use App\Helpers\Token;
 use Illuminate\Support\Facades\Storage;
@@ -49,7 +50,6 @@ class recipecontroller extends Controller
         $recipe_id = $recipe->create_recipe($request);
 
         $request->request->add(['recipe_id'=>$recipe_id]);
-        //return $next($request);
 
         $step->create_step($request);
         
@@ -64,9 +64,16 @@ class recipecontroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $RecipeHasIngredientController = new RecipeHasIngredientController();
+        $step = new Step;
+
+
+        $recipe_ingredient = $RecipeHasIngredientController->getRecipes($request->recipe_id);
+        $recipe_steps = $step->recipe_Steps($request->recipe_id);
+
+        return response()->json(["ingredientes" => $recipe_ingredient, "pasos" => $recipe_steps], 200);
     }
 
     /**

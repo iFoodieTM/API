@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\RecipeHasIngredient;
-use App\ingredientController;
+use App\Http\Controllers\ingredientController;
 
 class RecipeHasIngredientController extends Controller
 {
@@ -36,7 +36,7 @@ class RecipeHasIngredientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
     public function setIds($id_recipe,$id_ingredient)
     {
@@ -45,20 +45,25 @@ class RecipeHasIngredientController extends Controller
     }
     public function getRecipes($id_recipe){
         
-        $ingredientController = new ingredientController()
+        $ingredientController = new ingredientController();
         $ingredients = $ingredientController->getIngredients();
         $ingredientsFromRecipe = array();
 
         $ingredientsID = new RecipeHasIngredient();
         $ingredientsID = $ingredientsID->getIdIngredients($id_recipe);
-
+        
         foreach ($ingredientsID as $key => $ids) {
+            
             foreach ($ingredients as $key => $ingredient) {
-                if ($ids->recipe_id == $ingredient->id) {
+                
+                if ($ids->ingredient_id == $ingredient->id) {
+                    
                      array_push($ingredientsFromRecipe, $ingredient);
+                     
                 }               
             }
-        }        
+        }
+             
         return $ingredientsFromRecipe;
     }
 

@@ -22,5 +22,15 @@ class Step extends Model
 
     }
 
+    public function recipe_steps($recipe_id)
+    {
+
+        $recipe_steps = self::where('recipe_id',$recipe_id)->get();
+
+        return $recipe_steps;
+       // return response()->json([ $recipe_steps], 200);
+
+    }
+
 }
 

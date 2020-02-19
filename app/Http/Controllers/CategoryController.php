@@ -86,19 +86,23 @@ class categoryController extends Controller
         if ($category->categoryExists($request->name)) {
             $category = Category::where('name',$request->name)->first();
 
-            if ($category->name == $request->new_name || $category->photo == $category->new_photo) {
+            if ($category->name == $request->new_name || $category->photo == $category->new_photo) 
+            {
                 return response()->json(["Success" => "Se ha eliminado la categoria: "], 200);
-            }else if ($category->name == $request->new_name && !($category->photo == $category->new_photo){
-                $category->photo = $category->request
+            }else if (($category->name == $request->new_name) && !($category->photo == $category->new_photo))
+            {
+                $category->photo = $request->photo;
                 $category->update();
                 return response()->json(["Success" => "Se ha actualizado la foto de la categoria: "], 200);  
-            }else if (!($category->name == $request->new_name) && $category->photo == $category->new_photo{
-                $category->name = $category->name
+            }else if (!($category->name == $request->new_name) && ($category->photo == $category->new_photo))
+            {
+                $category->name = $category->name;
                 $category->update();
                 return response()->json(["Success" => "Se ha actualizado el nombre de la categoria: "], 200);  
-            }else if (!($category->name == $request->new_name) && !($category->photo == $category->new_photo){
-                $category->photo = $category->request
-                $category->name = $category->name
+            }else if (!($category->name == $request->new_name) && !($category->photo == $category->new_photo))
+            {
+                $category->photo = $category->request;
+                $category->name = $category->name;
                 $category->update();
                 return response()->json(["Success" => "Se ha actualizado la categoria: "], 200);           
             }     
