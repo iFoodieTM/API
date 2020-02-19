@@ -31,4 +31,20 @@ class Category extends Model
         return false;
     }
 
+    public function get_id_category($name){
+
+        if (self::categoryExists($name)) {
+            $category = self::where('name',$name)->first();
+            return $category->id;
+        }else{
+            $category = new Category;
+            $category->name = $name;
+            $category->save();
+
+            $categoryCreated = self::where('name',$name)->first();
+            return $categoryCreated->id;
+        }
+        return "Han habido errores";
+    }
+    
 }

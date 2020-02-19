@@ -60,6 +60,18 @@ class categoryController extends Controller
         $category = Category::all();
         return response()->json(["Success" => $category],200);
     }
+    public function getIdCategory(Request $request)    {
+   
+        $category = new Category();
+        $idCategories = $category->get_id_category($request->name);
+        return response()->json(["id" => $idCategories]);
+    }
+    public function getCategories(){
+
+        $categorie = new Category();
+        $categorie = Category::all();
+        return $categorie;
+    }
 
     /**
      * Show the form for editing the specified resource.
