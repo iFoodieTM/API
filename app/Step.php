@@ -31,6 +31,25 @@ class Step extends Model
        // return response()->json([ $recipe_steps], 200);
 
     }
+    public function create_steps($array_steps,$recipe_id)
+    {
+
+        $step = new Step;
+        var_dump($array_steps);
+        foreach ($array_steps as $key => $step_to_create) {
+
+            
+            $step->step_number = $key + 1;
+            $step->instructions = $step_to_create;
+            $step->recipe_id = $recipe_id;
+            $step->save();
+
+            
+        }
+
+
+
+    }
 
 }
 

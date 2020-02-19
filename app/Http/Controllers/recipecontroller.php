@@ -51,7 +51,8 @@ class recipecontroller extends Controller
 
         $request->request->add(['recipe_id'=>$recipe_id]);
 
-        $step->create_step($request);
+        //$step->create_step($request);
+        $step->create_steps($request->array_steps,$recipe_id);
         
         
         return response()->json(["Success" => "Se ha creado la receta"], 200);
