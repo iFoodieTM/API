@@ -58,11 +58,11 @@ class RecipeHasCategoryController extends Controller
     public function getRecipes($id_recipe){
         
         $categoryController = new CategoryController();
-        $category = $categoryController->getIngredients();
+        $categories = $categoryController->getCategories();
         $categoryFromRecipe = array();
 
         $categoriesID = new RecipeHasCategory();
-        $categoriesID = $categoriesID->getIdCategories($id_category);
+        $categoriesID = $categoriesID->getIdCategories($id_recipe);
         
         foreach ($categoriesID as $key => $ids) {
             
