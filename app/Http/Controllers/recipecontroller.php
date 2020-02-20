@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\recipe;
 use App\Ingredient;
+use App\RecipeHasIngredient;
+use App\RecipeHasCategory;
 use App\Http\Controllers\RecipeHasIngredientController;
 use App\Http\Controllers\RecipeHasCategoryController;
 use App\Category;
@@ -43,18 +45,43 @@ class recipecontroller extends Controller
     {
 
         $recipe = new recipe();
-        $step= new step();
+        //$step= new step();
 
-        //aqui falta:
+        // aqui falta:
         // como añadir steps a la receta
-        //multiples steps
+        // multiples steps
 
         $recipe_id = $recipe->create_recipe($request);
 
-        $request->request->add(['recipe_id'=>$recipe_id]);
+        //$request->request->add(['recipe_id'=>$recipe_id]);
 
         //$step->create_step($request);
-        $step->create_steps($request->array_steps,$recipe_id);
+        //$step->create_steps($request->array_steps,$recipe_id);
+
+
+        $ingredients = $request->ingredients;
+        $ingredient = new Ingredient();
+        $recipeHasIngredient = new RecipeHasIngredient();
+
+        foreach ($ingredients as $key => $ing) {
+            $id_ingredient = $ingredient->get_id_ingredient($ing);
+            print('Ingrediente - ID receta - ID ingrediente <br>');
+            print($ing. '-'. $recipe_id .'-'.$id_ingredient.' <br>');
+            $recipeHasIngredient->createFromIds($recipe_id,$id_ingredient);
+        }
+
+
+        $categories = $request->categories;
+        $category = new Category();
+        $recipeHAsCategory = new RecipeHasCategory();
+
+        foreach ($categories as $key => $cat) {
+            $id_category = $category->get_id_ingredient($cat);
+
+            print('<br>Categoria - ID receta - ID categoria <br>');
+            print($cat. '-'. $recipe_id .'-'.$id_category.' <br>');
+            $recipeHasIngredient->createFromIds($recipe_id,$id_category);
+        }
         
         
         return response()->json(["Success" => "Se ha creado la receta"], 200);
