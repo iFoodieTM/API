@@ -252,7 +252,7 @@ class UserController extends Controller
 
                     if (isset($user_repeated)&&!$user->rol==2) 
                     {
-                        return response()->json(["Error" => "No se puede modificar el usuario, ese user_name ya esta en uso"]);
+                        return response()->json(["Error" => "No se puede modificar el usuario, ese user_name ya esta en uso"],400);
 
                     } else {
                         if ($user->rol==3||$user->rol==1) {

@@ -73,14 +73,25 @@ class recipecontroller extends Controller
 
         $categories = $request->categories;
         $category = new Category();
-        $recipeHAsCategory = new RecipeHasCategory();
+        $recipeHasCategory = new RecipeHasCategory();
 
         foreach ($categories as $key => $cat) {
-            $id_category = $category->get_id_ingredient($cat);
+            $id_category = $category->get_id_category($cat);
+            if ($id_category != false) {                
+                print('Categoria - ID receta - ID categoria <br>');
+                print($cat. '-'. $recipe_id .'-'.$id_category.' <br>');
+                $recipeHasCategory->createFromIds($recipe_id,$id_category);
+            }
+        }
 
-            print('<br>Categoria - ID receta - ID categoria <br>');
-            print($cat. '-'. $recipe_id .'-'.$id_category.' <br>');
-            $recipeHasIngredient->createFromIds($recipe_id,$id_category);
+
+        $step = new Step();
+        $steps = $request->steps;
+
+        foreach ($steps as $key => $st) {
+            print('nºPaso - Paso - ID receta <br>');
+            print($ing. '-'. $recipe_id .'-'.$recipe_id.' <br>');
+            $step->createStep(($key+1),$st,$recipe_id);
         }
         
         
@@ -105,7 +116,7 @@ class recipecontroller extends Controller
 
         $recipe_ingredient = $RecipeHasIngredientController->getRecipes($request->recipe_id);
         $recipe_steps = $step->recipe_Steps($request->recipe_id);
-        $recipe_category = $RecipeHasCategoryController->getRecipes($request->recipe_id);
+        $recipe_category = $RecipeHasCategoryController->getCategories($request->recipe_id);
 
         return response()->json(["recipe"=>$recipe,"ingredientes" => $recipe_ingredient, "pasos" => $recipe_steps,"category"=>$recipe_category], 200);
     }

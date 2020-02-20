@@ -31,6 +31,16 @@ class Step extends Model
        // return response()->json([ $recipe_steps], 200);
 
     }
+
+    public function createStep($step_number,$instruction,$recipe_id){      
+
+            $step = new Step;  
+            $step->step_number = $step_number;
+            $step->instructions = $instruction;
+            $step->recipe_id = $recipe_id;
+            $step->save();
+    }
+
     public function create_steps($array_steps,$recipe_id)
     {
 
