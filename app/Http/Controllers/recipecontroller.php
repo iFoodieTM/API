@@ -112,11 +112,11 @@ class recipecontroller extends Controller
         $RecipeHasCategoryController = new RecipeHasCategoryController();
         $step = new Step;
 
-        $recipe = recipe::where('id',$request->recipe_ingredient)->first();
+        $recipe = recipe::where('id',$request->recipe_id)->first();
 
         $recipe_ingredient = $RecipeHasIngredientController->getRecipes($request->recipe_id);
         $recipe_steps = $step->recipe_Steps($request->recipe_id);
-        $recipe_category = $RecipeHasCategoryController->getRecipes($request->recipe_id);
+        $recipe_category = $RecipeHasCategoryController->getCategories($request->recipe_id);
 
         return response()->json(["recipe"=>$recipe,"ingredientes" => $recipe_ingredient, "pasos" => $recipe_steps,"category"=>$recipe_category], 200);
     }

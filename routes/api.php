@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth']], function (){
 
 
     Route::apiResource('recipes', 'recipecontroller');
+    Route::post('show_recipe', 'recipecontroller@show');
     Route::put('update', 'UserController@update');
     Route::apiResource('Ingredient', 'ingredientController');
     Route::post('getIdIngredient', 'ingredientController@getIdIngredient');
