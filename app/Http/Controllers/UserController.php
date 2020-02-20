@@ -41,10 +41,17 @@ class UserController extends Controller
         if (!$user->userExists($request->email)) {
             if (isset($request->rol)) {
                 switch ($request->rol) {
+
                 case  1:
-                    $user->create($request);
-                    return $this->login($request);
+                    if (!$user->user_name_taken($request->user_name)) {
+                        $user->create($request);
+                        return $this->login($request);
+                    }else {
+                        return response()->json(["Error" => "este nombre de usuario ya esta en uso"], 401);
+                    }
                     break;
+                    
+                   
 
                 case 2:
                     $user->create_restaurant($request);
@@ -52,8 +59,12 @@ class UserController extends Controller
                     break;
 
                 case 3:
-                    $user->create_admin($request);
-                    return $this->login($request);
+                    if (!$user->user_name_taken($request->user_name)) {
+                        $user->create_admin($request);
+                        return $this->login($request);
+                    }else {
+                        return response()->json(["Error" => "este nombre de usuario ya esta en uso"], 401);
+                    }
                     break;
                 
                 default:

@@ -55,7 +55,7 @@ class categoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
         $category = Category::all();
         return response()->json(["Success" => $category],200);
