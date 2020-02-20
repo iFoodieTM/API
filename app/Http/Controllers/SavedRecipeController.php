@@ -52,8 +52,9 @@ class SavedRecipeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(Request $request)
     {
+        
         $user = User::where('email', $request->data_token->email)->first();
         $user_id = $user->id;
         $saved_recipe = new SavedRecipe;
