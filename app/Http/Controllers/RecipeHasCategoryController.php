@@ -50,12 +50,13 @@ class RecipeHasCategoryController extends Controller
     {
         //
     }
+
     public function setIds($id_recipe,$id_category)
     {
         $recipeHasCategory = new RecipeHasCategory;
         $recipeHasCategory->createFromIds($id_recipe,$id_category);
     }
-    public function getRecipes($id_recipe){
+    public function getCategories($id_recipe){
         
         $categoryController = new CategoryController();
         $categories = $categoryController->getCategories();

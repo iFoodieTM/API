@@ -183,8 +183,8 @@ class UserController extends Controller
 
     public function show_users(Request $request)
     {
-        $user = User::all();
-        return response()->json(["Success" => $user]);
+        $users = User::where('rol',1)->get();
+        return response()->json(["Success" => $users]);
     }
 
     public function show_admin(Request $request)
@@ -197,11 +197,6 @@ class UserController extends Controller
     {
         $users = User::where(['rol'=>2])->get();
 
-       /* foreach ($users as $user){
-            var_dump($user->menu);
-            var_dump(json_decode($user->menu));
-        }exit;
-        */
         return response()->json(["Success" => $users]);
         
     }

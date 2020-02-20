@@ -16,8 +16,8 @@ class RecipeHasIngredient extends Model
 
         $recipeHasIngrecient = new RecipeHasIngredient;
 
-        $recipeHasIngrecient->name = $id_recipe;
-        $recipeHasIngrecient->name = $id_ingredient;
+        $recipeHasIngrecient->recipe_id = $id_recipe;
+        $recipeHasIngrecient->ingredient_id = $id_ingredient;
         $recipeHasIngrecient->save();
         
     }

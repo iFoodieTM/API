@@ -16,9 +16,8 @@ class RecipeHasCategory extends Model
     {
 
         $recipeHasCategory = new RecipeHasIngredient;
-
-        $recipeHasCategory->name = $id_recipe;
-        $recipeHasCategory->name = $id_ingredient;
+        $recipeHasCategory->id_recipe = $id_recipe;
+        $recipeHasCategory->id_category = $id_ingredient;
         $recipeHasCategory->save();
         
     }

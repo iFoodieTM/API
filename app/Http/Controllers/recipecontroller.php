@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\recipe;
 use App\Ingredient;
+use App\RecipeHasIngredient;
+use App\RecipeHasCategory;
 use App\Http\Controllers\RecipeHasIngredientController;
 use App\Http\Controllers\RecipeHasCategoryController;
 use App\Category;
@@ -42,7 +44,7 @@ class recipecontroller extends Controller
     public function store(Request $request)
     {
 
-        //$recipe = new recipe();
+        $recipe = new recipe();
         //$step= new step();
 
         // aqui falta:
@@ -57,12 +59,28 @@ class recipecontroller extends Controller
         //$step->create_steps($request->array_steps,$recipe_id);
 
 
-        $ingredients = $request->ingredients();
+        $ingredients = $request->ingredients;
         $ingredient = new Ingredient();
+        $recipeHasIngredient = new RecipeHasIngredient();
 
         foreach ($ingredients as $key => $ing) {
             $id_ingredient = $ingredient->get_id_ingredient($ing);
-            $recipeHasIngredient->createFromIds($id_recipe,$id_ingredient);
+            print('Ingrediente - ID receta - ID ingrediente <br>');
+            print($ing. '-'. $recipe_id .'-'.$id_ingredient.' <br>');
+            $recipeHasIngredient->createFromIds($recipe_id,$id_ingredient);
+        }
+
+
+        $categories = $request->categories;
+        $category = new Category();
+        $recipeHAsCategory = new RecipeHasCategory();
+
+        foreach ($categories as $key => $cat) {
+            $id_category = $category->get_id_ingredient($cat);
+
+            print('<br>Categoria - ID receta - ID categoria <br>');
+            print($cat. '-'. $recipe_id .'-'.$id_category.' <br>');
+            $recipeHasIngredient->createFromIds($recipe_id,$id_category);
         }
         
         

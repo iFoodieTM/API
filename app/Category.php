@@ -31,6 +31,18 @@ class Category extends Model
         return false;
     }
 
+    public function  get_id_category($name){
+
+        if (self::categoryExists($name)) {
+            $category = self::where('name',$name)->first();
+            return $category->id;
+        }else{
+            return false;
+        }
+        return "Han habido errores";
+
+    }
+/*
     public function get_id_category($name){
 
         if (self::categoryExists($name)) {
@@ -46,5 +58,5 @@ class Category extends Model
         }
         return "Han habido errores";
     }
-    
+    */
 }

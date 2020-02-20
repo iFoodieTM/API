@@ -63,8 +63,15 @@ class categoryController extends Controller
     public function getIdCategory(Request $request)    {
    
         $category = new Category();
-        $idCategories = $category->get_id_category($request->name);
-        return response()->json(["id" => $idCategories]);
+        //$idCategories = $category->get_id_category($request->name);
+
+        if (categoryExists($request->name)) {            
+            $category = Category::where('name',$name)->first();
+            return response()->json($idCategory);
+        }else{
+             return response()->json(["Error" => "La categoria no existe."], 400);
+        }
+       
     }
     public function getCategories(){
 
