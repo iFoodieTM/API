@@ -15,9 +15,9 @@ class RecipeHasCategory extends Model
     public function createFromIds($id_recipe,$id_category)
     {
 
-        $recipeHasCategory = new RecipeHasIngredient;
-        $recipeHasCategory->id_recipe = $id_recipe;
-        $recipeHasCategory->id_category = $id_ingredient;
+        $recipeHasCategory = new RecipeHasCategory;
+        $recipeHasCategory->recipe_id = $id_recipe;
+        $recipeHasCategory->category_id = $id_category;
         $recipeHasCategory->save();
         
     }

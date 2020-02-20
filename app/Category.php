@@ -39,7 +39,7 @@ class Category extends Model
         }else{
             return false;
         }
-        return "Han habido errores";
+        return false;
 
     }
 /*
