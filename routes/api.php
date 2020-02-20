@@ -36,6 +36,9 @@ Route::group(['middleware' => ['auth']], function (){
     Route::post('getIdIngredient', 'ingredientController@getIdIngredient');
     Route::apiResource('Step', 'StepController');
     Route::get('show_recipe_steps', 'StepController@show_recipe_steps');
+    Route::apiResource('SavedRecipe', 'SavedRecipeController');
+    Route::put('setIds', 'SavedRecipeController@setIds');
+
     
 });
 
