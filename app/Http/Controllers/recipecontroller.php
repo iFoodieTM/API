@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\recipe;
 use App\Ingredient;
 use App\Http\Controllers\RecipeHasIngredientController;
+use App\Http\Controllers\RecipeHasCategoryController;
+use App\Category;
 use App\Step;
 use App\Helpers\Token;
 use Illuminate\Support\Facades\Storage;
@@ -76,14 +78,18 @@ class recipecontroller extends Controller
      */
     public function show(Request $request)
     {
+        $recipe= new recipe;
         $RecipeHasIngredientController = new RecipeHasIngredientController();
+        $RecipeHasCategoryController = new RecipeHasCategoryController();
         $step = new Step;
 
+        $recipe = recipe::where('id',$request->recipe_id)->first();
 
         $recipe_ingredient = $RecipeHasIngredientController->getRecipes($request->recipe_id);
         $recipe_steps = $step->recipe_Steps($request->recipe_id);
+        $recipe_category = $RecipeHasCategoryController->getRecipes($request->recipe_id);
 
-        return response()->json(["ingredientes" => $recipe_ingredient, "pasos" => $recipe_steps], 200);
+        return response()->json(["recipe"=>$recipe,"ingredientes" => $recipe_ingredient, "pasos" => $recipe_steps,"category"=>$recipe_category], 200);
     }
 
     /**
