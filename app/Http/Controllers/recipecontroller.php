@@ -121,6 +121,29 @@ class recipecontroller extends Controller
         return response()->json(["recipe"=>$recipe,"ingredientes" => $recipe_ingredient, "pasos" => $recipe_steps,"category"=>$recipe_category], 200);
     }
 
+    public function showAll(){
+
+        $recipe= new recipe;
+        $recipes = recipe::all();
+
+        $RecipeHasIngredientController = new RecipeHasIngredientController();
+        $RecipeHasCategoryController = new RecipeHasCategoryController();
+        $step = new Step;
+
+        $allRecipes = array();
+
+        foreach ($recipes as $key => $recipe) {
+            $recipe_ingredient = $RecipeHasIngredientController->getRecipes($recipe->id);
+            $recipe_steps = $step->recipe_Steps($recipe->id);
+            $recipe_category = $RecipeHasCategoryController->getCategories($recipe->id);
+            $completeRecipe = ["recipe"=>$recipe,"ingredientes" => $recipe_ingredient, "pasos" => $recipe_steps,"category"=>$recipe_category];
+
+            array_push($allRecipes, $completeRecipe);
+        }
+
+        return $allRecipes;
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
