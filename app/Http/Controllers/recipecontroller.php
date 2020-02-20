@@ -40,19 +40,28 @@ class recipecontroller extends Controller
     public function store(Request $request)
     {
 
-        $recipe = new recipe();
-        $step= new step();
+        //$recipe = new recipe();
+        //$step= new step();
 
-        //aqui falta:
+        // aqui falta:
         // como añadir steps a la receta
-        //multiples steps
+        // multiples steps
 
         $recipe_id = $recipe->create_recipe($request);
 
-        $request->request->add(['recipe_id'=>$recipe_id]);
+        //$request->request->add(['recipe_id'=>$recipe_id]);
 
         //$step->create_step($request);
-        $step->create_steps($request->array_steps,$recipe_id);
+        //$step->create_steps($request->array_steps,$recipe_id);
+
+
+        $ingredients = $request->ingredients();
+        $ingredient = new Ingredient();
+
+        foreach ($ingredients as $key => $ing) {
+            $id_ingredient = $ingredient->get_id_ingredient($ing);
+            $recipeHasIngredient->createFromIds($id_recipe,$id_ingredient);
+        }
         
         
         return response()->json(["Success" => "Se ha creado la receta"], 200);

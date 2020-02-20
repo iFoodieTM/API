@@ -31,7 +31,8 @@ class checkAuthAdmin
                 }
             }
         }               
-        var_dump('no tienes permisos de administrador, PALOMO!'); exit;
+        //var_dump('no tienes permisos de administrador, PALOMO!'); exit;
+        return response()->json(["error" => "No estas autorizado"], 401);
     
         //return $next($request);
     }
