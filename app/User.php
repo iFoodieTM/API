@@ -104,4 +104,18 @@ class User extends Model
         }
         return false;
     }
+    public function user_name_taken($user_name)
+    {
+        $users = self::where('user_name',$user_name)->get();
+        
+        foreach ($users as $key => $value) {
+            if($value->user_name == $user_name){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
 }
