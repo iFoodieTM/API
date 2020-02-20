@@ -120,6 +120,18 @@ class recipecontroller extends Controller
 
         return response()->json(["recipe"=>$recipe,"ingredientes" => $recipe_ingredient, "pasos" => $recipe_steps,"category"=>$recipe_category], 200);
     }
+    public function show_all(Request $request)
+    {
+        $recipe= new recipe;
+
+        $recipe = recipe::all();
+        //falta organizar por  rating
+
+
+        return response()->json(["recipe"=>$recipe], 200);
+    }
+
+    
 
     /**
      * Show the form for editing the specified resource.
