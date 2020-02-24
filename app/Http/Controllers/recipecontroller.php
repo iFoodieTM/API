@@ -45,19 +45,8 @@ class recipecontroller extends Controller
     {
 
         $recipe = new recipe();
-        //$step= new step();
-
-        // aqui falta:
-        // como añadir steps a la receta
-        // multiples steps
 
         $recipe_id = $recipe->create_recipe($request);
-
-        //$request->request->add(['recipe_id'=>$recipe_id]);
-
-        //$step->create_step($request);
-        //$step->create_steps($request->array_steps,$recipe_id);
-
 
         $ingredients = $request->ingredients;
         $ingredient = new Ingredient();
@@ -126,22 +115,23 @@ class recipecontroller extends Controller
         $recipe= new recipe;
         $recipes = recipe::all();
 
-        $RecipeHasIngredientController = new RecipeHasIngredientController();
-        $RecipeHasCategoryController = new RecipeHasCategoryController();
-        $step = new Step;
+        return $recipes;
+    }
 
-        $allRecipes = array();
+    public function showFromCategory(Request $request){
 
-        foreach ($recipes as $key => $recipe) {
-            $recipe_ingredient = $RecipeHasIngredientController->getRecipes($recipe->id);
-            $recipe_steps = $step->recipe_Steps($recipe->id);
-            $recipe_category = $RecipeHasCategoryController->getCategories($recipe->id);
-            $completeRecipe = ["recipe"=>$recipe,"ingredientes" => $recipe_ingredient, "pasos" => $recipe_steps,"category"=>$recipe_category];
+        /*
+            SELECT recipes.* 
+            FROM recipes , recipe_has_categories 
+            WHERE recipe_has_categories.category_id = 5 and recipes.id = recipe_has_categories.recipe_id
+        */
 
-            array_push($allRecipes, $completeRecipe);
-        }
 
-        return $allRecipes;
+        // si la respuesta esta vacia por que no haya recetas con esa categoria buscar por titulo y devolver por titulo.
+    }
+
+    public function showFromTitle(Request $request){
+
     }
 
     /**
