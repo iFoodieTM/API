@@ -57,8 +57,8 @@ class categoryController extends Controller
      */
     public function show()
     {
-        $category = Category::all();
-        return response()->json(["Success" => $category],200);
+        $categories = Category::all();
+        return response()->json($categories,200);
     }
     public function getIdCategory(Request $request)    {
    

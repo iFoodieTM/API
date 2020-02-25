@@ -41,6 +41,7 @@ Route::group(['middleware' => ['auth']], function (){
     Route::apiResource('SavedRecipe', 'SavedRecipeController');
     Route::put('setIds', 'SavedRecipeController@setIds');
 
+    Route::get('show_categories', 'CategoryController@show');
     
 });
 
