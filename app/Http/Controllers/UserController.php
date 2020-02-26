@@ -179,7 +179,7 @@ class UserController extends Controller
     public function show_user(Request $request)
     {
 
-        $user = User::where('email',$request->email)->first();
+        $user = User::where('email', $request->data_token->email)->first();
 
         if (isset($user)) 
         {
