@@ -47,7 +47,7 @@ class UserController extends Controller
                         $user->create($request);
                         return $this->login($request);
                     }else {
-                        return response()->json(["Error" => "este nombre de usuario ya esta en uso"], 401);
+                        return response()->json(["este nombre de usuario ya esta en uso"], 401);
                     }
                     break;
                     
@@ -63,12 +63,12 @@ class UserController extends Controller
                         $user->create_admin($request);
                         return $this->login($request);
                     }else {
-                        return response()->json(["Error" => "este nombre de usuario ya esta en uso"], 401);
+                        return response()->json(["este nombre de usuario ya esta en uso"], 401);
                     }
                     break;
                 
                 default:
-                    return response()->json(["Error" => "valor de rol no coincide con ninguno ya establecido"], 400);
+                    return response()->json(["valor de rol no coincide con ninguno ya establecido"], 400);
                     break;
                 }
             } else {
@@ -81,7 +81,7 @@ class UserController extends Controller
                 }
             }
         }
-        return response()->json(["Error" => "No se pueden crear usuarios con el mismo email o con el email vacío"], 400);
+        return response()->json(["No se pueden crear usuarios con el mismo email o con el email vacío"], 400);
     }
 
     public function login(Request $request)
@@ -96,10 +96,10 @@ class UserController extends Controller
             {
                 $token = new Token($data_token);
                 $tokenEncoded = $token->encode();
-                return response()->json(["token" => $tokenEncoded], 201);
+                return response()->json([$tokenEncoded], 201);
             }
         }
-        return response()->json(["Error" => "No se ha encontrado"], 401);
+        return response()->json(["No se ha encontrado"], 401);
     }
 
     public function login_admin(Request $request)
@@ -115,7 +115,7 @@ class UserController extends Controller
             if($user->rol!=3)
             {
 
-                return response()->json(["Error" => "este usuario no es un usuario administrador"], 401);
+                return response()->json(["este usuario no es un usuario administrador"], 401);
 
             }
 
@@ -125,7 +125,7 @@ class UserController extends Controller
                 return response()->json(["token" => $tokenEncoded], 201);
             }
         }
-        return response()->json(["Error" => "No se ha encontrado este usuario"], 401);
+        return response()->json(["No se ha encontrado este usuario"], 401);
     }
 
     public function check_user_name (Request $request){
@@ -140,7 +140,7 @@ class UserController extends Controller
 
                 if($actual_user_name == $new_user_name){
 
-                    return response()->json(["posee el mismo user name", 400]);
+                    return response()->json("posee el mismo user_name", 400);
 
                 }
         }
@@ -149,11 +149,11 @@ class UserController extends Controller
 
         if (!$avaliable) {
 
-            return response()->json(["user_name disponible", 200]);
+            return response()->json("user_name disponible", 200);
 
         }else{
 
-            return response()->json(["user_name no disponible", 401]);
+            return response()->json("user_name no disponible", 401);
 
         }
         
@@ -169,9 +169,9 @@ class UserController extends Controller
             $user->password = encrypt($newPassword);
             $user->update();
             
-            return response()->json(["Success" => "Se ha restablecido su contraseña, revise su correo electronico."]);
+            return response()->json(["Se ha restablecido su contraseña, revise su correo electronico."]);
         } else {
-            return response()->json(["Error" => "El email no existe"]);
+            return response()->json(["El email no existe"]);
         }
     }
 
@@ -204,7 +204,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::all();
-        return response()->json(["Success" => $user]);
+        return response()->json($user);
     }
 
     public function show_user(Request $request)
@@ -219,7 +219,7 @@ class UserController extends Controller
 
         }
 
-        return response()->json(["error"=> "no hay usario que coincida con el email provisto"]);
+        return response()->json(["no hay usario que coincida con el email provisto"]);
 
     }
 
@@ -284,7 +284,7 @@ class UserController extends Controller
 
                     if (isset($user_repeated)&&!$user->rol==2) 
                     {
-                        return response()->json(["Error" => "No se puede modificar el usuario, ese user_name ya esta en uso"],400);
+                        return response()->json(["No se puede modificar el usuario, ese user_name ya esta en uso"],400);
 
                     } else {
                         if ($user->rol==3||$user->rol==1) {
@@ -292,12 +292,12 @@ class UserController extends Controller
                         }
 
                         $user->update();
-                        return response()->json(["succces" => "user edited"]);
+                        return response()->json(["user edited"]);
                     }
                 } 
 
                 $user->update();
-                return response()->json(["succces" => "user edited"]);
+                return response()->json(["user edited"]);
 
             }else{
 
@@ -314,7 +314,7 @@ class UserController extends Controller
 
                     if (isset($user_repeated)&&!$user->rol==2) 
                     {
-                        return response()->json(["Error" => "No se puede modificar el usuario, ese user_name ya esta en uso"]);
+                        return response()->json(["No se puede modificar el usuario, ese user_name ya esta en uso"]);
 
                     } else {
                         if ($user->rol==3||$user->rol==1) {
@@ -322,15 +322,15 @@ class UserController extends Controller
                         }
                         
                         $user->update();
-                        return response()->json(["succces" => "user edited"]);
+                        return response()->json(["user edited"]);
                     }
                 }
                 $user->update();
-                return response()->json(["succces" => "user edited"]);
+                return response()->json(["user edited"]);
                 }
 
             } else {
-            return response()->json(["Error" => "El email no existe"]);
+            return response()->json(["El email no existe"]);
         }
 
     }
@@ -349,7 +349,7 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json([
-                "message" => 'el usuario ha sido eliminado'
+                 'el usuario ha sido eliminado'
             ], 200);
     }
 
@@ -362,11 +362,11 @@ class UserController extends Controller
             $user->banned = 1;
             $user->update();
             return response()->json([
-                "message" => 'el usuario ha sido llevado ante la justicia'
+                 'el usuario ha sido llevado ante la justicia'
             ], 200);
         }
         return response()->json([
-            "message" => 'el usuario no existe'
+             'el usuario no existe'
         ], 400);
     }
 
@@ -379,11 +379,11 @@ class UserController extends Controller
             $user->banned = 0;
             $user->update();
             return response()->json([
-                "message" => 'haya perdon para todos'
+                 'haya perdon para todos'
             ], 200);
         }
         return response()->json([
-            "message" => 'el usuario no existe'
+            'el usuario no existe'
         ], 400);
     }
 }
