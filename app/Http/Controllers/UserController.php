@@ -128,6 +128,37 @@ class UserController extends Controller
         return response()->json(["Error" => "No se ha encontrado este usuario"], 401);
     }
 
+    public function check_user_name (Request $request){
+
+        $new_user_name = $request->user_name;
+        
+        $user = User::where('email', $request->data_token->email)->first();
+
+        if (isset($user)) {
+
+            $actual_user_name = $user->user_name;
+
+                if($actual_user_name == $new_user_name){
+
+                    return response()->json(["posee el mismo user_name", 400]);
+
+                }
+        }
+        
+       $avaliable = $user->user_name_taken($new_user_name);
+
+        if (!$avaliable) {
+
+            return response()->json(["user_name disponible", 200]);
+
+        }else{
+
+            return response()->json(["user_name no disponible", 401]);
+
+        }
+        
+    }
+
     public function recoverPassword(Request $request)
     {
         $user = User::where('email', $request->email)->first();
@@ -179,7 +210,7 @@ class UserController extends Controller
     public function show_user(Request $request)
     {
 
-        $user = User::where('email',$request->email)->first();
+        $user = User::where('email', $request->data_token->email)->first();
 
         if (isset($user)) 
         {
@@ -243,7 +274,8 @@ class UserController extends Controller
                 $user->password = encrypt($request->password);
                 $user->menu = $request->menu;
                 $user->description = $request->description;
-                $user->photo = Storage::url($request->photo);
+                //storage
+                $user->photo = $request->photo;
                 
             
                 if ((isset($request->user_name)&&($request->user_name != $user->user_name))||$user->rol==2) 

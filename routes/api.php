@@ -25,7 +25,7 @@ Route::post('recoverPassword','UserController@recoverPassword');
 Route::get('show_restaurant','UserController@show_restaurant');
 Route::get('show_admin','UserController@show_admin');
 Route::get('show_users','UserController@show_users');
-Route::get('show_user','UserController@show_user');
+
 
 Route::group(['middleware' => ['auth']], function (){
 
@@ -40,8 +40,9 @@ Route::group(['middleware' => ['auth']], function (){
     Route::get('show_recipe_steps', 'StepController@show_recipe_steps');
     Route::apiResource('SavedRecipe', 'SavedRecipeController');
     Route::put('setIds', 'SavedRecipeController@setIds');
-
+    Route::post('show_user','UserController@show_user');
     Route::get('show_categories', 'CategoryController@show');
+    route::get('check_user_name','UserController@check_user_name');
     
 });
 
