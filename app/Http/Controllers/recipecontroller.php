@@ -116,7 +116,18 @@ class recipecontroller extends Controller
         $recipe= new recipe;
         $recipes = recipe::all();
 
-        return response()->json($recipe, 200);
+        return response()->json($recipes, 200);
+    }
+    public function showAllFromUser(Request $request){
+
+        $recipe= new recipe;
+        $recipes = recipe::where('user_id',$request->user_id)->get();
+       
+        if (sizeof($recipes)!=0) {
+           return response()->json($recipes, 200);
+        }else{
+            return response()->json("Este usuario no tiene ninguna receta creada", 401);
+        }        
     }
 
  
