@@ -117,4 +117,9 @@ class User extends Model
         }
         return false;
     }
+
+    public function getUserFromId($id){
+        $user = self::where('id',$id)->first();
+        return $user;
+    }
 }

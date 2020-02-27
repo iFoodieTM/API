@@ -140,7 +140,7 @@ class UserController extends Controller
 
                 if($actual_user_name == $new_user_name){
 
-                    return response()->json(["posee el mismo user_name", 400]);
+                    return response()->json(["posee el mismo user name", 400]);
 
                 }
         }
@@ -215,31 +215,31 @@ class UserController extends Controller
         if (isset($user)) 
         {
             
-            return response()->json(["Success" => $user]);
+            return response()->json($user,200);
 
         }
 
-        return response()->jason(["error"=> "no hay usario que coincida con el email provisto"]);
+        return response()->json(["error"=> "no hay usario que coincida con el email provisto"]);
 
     }
 
     public function show_users(Request $request)
     {
         $users = User::where('rol',1)->get();
-        return response()->json(["Success" => $users]);
+        return response()->json($users);
     }
 
     public function show_admin(Request $request)
     {
         $users = User::where('rol',3)->get();
-        return response()->json(["Success" => $users]);
+        return response()->json($users);
     }
 
     public function show_restaurant()
     {
         $users = User::where(['rol'=>2])->get();
 
-        return response()->json(["Success" => $users]);
+        return response()->json($users);
         
     }
 
