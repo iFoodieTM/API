@@ -215,11 +215,11 @@ class UserController extends Controller
         if (isset($user)) 
         {
             
-            return response()->json(["Success" => $user]);
+            return response()->json($user);
 
         }
 
-        return response()->jason(["error"=> "no hay usario que coincida con el email provisto"]);
+        return response()->jason("no hay usario que coincida con el email provisto");
 
     }
 
