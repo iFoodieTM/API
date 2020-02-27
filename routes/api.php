@@ -43,6 +43,8 @@ Route::group(['middleware' => ['auth']], function (){
     Route::put('update', 'UserController@update');
     Route::get('show_user','UserController@show_user');
     route::get('check_user_name','UserController@check_user_name');
+    Route::get('show_users','UserController@show_users');
+    Route::get('show_restaurant','UserController@show_restaurant');
     // Endpoints de categorias
     Route::get('show_categories', 'CategoryController@show');
     
@@ -50,9 +52,7 @@ Route::group(['middleware' => ['auth']], function (){
 
 Route::group(['middleware' => ['authAdmin']], function (){   
 
-    Route::get('show_restaurant','UserController@show_restaurant');
     Route::get('show_admin','UserController@show_admin');
-    Route::get('show_users','UserController@show_users');
 
 	Route::apiResource('category', 'CategoryController');
 	Route::post('ban','UserController@ban');
