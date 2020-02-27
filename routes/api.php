@@ -40,8 +40,9 @@ Route::group(['middleware' => ['auth']], function (){
     Route::get('show_recipe_steps', 'StepController@show_recipe_steps');
     Route::apiResource('SavedRecipe', 'SavedRecipeController');
     Route::put('setIds', 'SavedRecipeController@setIds');
-    Route::get('show_user','UserController@show_user');
+    Route::post('show_user','UserController@show_user');
     Route::get('show_categories', 'CategoryController@show');
+    route::get('check_user_name','UserController@check_user_name');
     
 });
 
