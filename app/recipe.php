@@ -19,8 +19,8 @@ class recipe extends Model
     {
 
         $recipe = new recipe;
-
-        $check_photo = Storage::url($request->photo);
+        //storage
+        $check_photo = ($request->photo);
 
         $user = User::where('email', $request->data_token->email)->first();
 
@@ -33,8 +33,8 @@ class recipe extends Model
         $recipe->rating = $request->rating;
 
         if(isset($check_photo)){
-        
-            $recipe->photo = Storage::url($request->photo);
+            //storage
+            $recipe->photo = ($request->photo);
             }else{ 
         
                      $recipe->photo = "fotoprueba.png";               

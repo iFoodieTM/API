@@ -14,7 +14,8 @@ class User extends Model
         $user = new User;
         $user->rol = 1 ;
         $check_name = $request->name;
-        $check_photo = Storage::url($request->photo);
+        //storage
+        $check_photo = ($request->photo);
 
         if(isset($check_name)){
 
@@ -31,8 +32,8 @@ class User extends Model
         
 
         if(isset($check_photo)){
-                  
-            $user->photo = Storage::url($request->photo);
+            //storage
+            $user->photo = ($request->photo);
         }else{ 
 
              $user->photo = "fotoprueba.png";        
@@ -43,7 +44,8 @@ class User extends Model
     public function create_restaurant($request){
         $user = new user;
         $user->rol = 2;  
-        $check_photo = Storage::url($request->photo);
+        //storage
+        $check_photo = ($request->photo);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = encrypt($request->password);
@@ -53,8 +55,8 @@ class User extends Model
         $user->description = $request->description;
 
         if(isset($check_photo)){
-        
-    $user->photo = Storage::url($request->photo);
+            //storage
+            $user->photo = ($request->photo);
         }else{ 
 
              $user->photo = "fotoprueba.png";
@@ -71,12 +73,12 @@ class User extends Model
         $user->user_name = $request->user_name;
         $user->password = encrypt($request->password);
         $user->name = 'admin';
-
-        $check_photo = Storage::url($request->photo);
+        //storage
+        $check_photo = ($request->photo);
 
         if(isset($check_photo)){
-                  
-            $user->photo = Storage::url($request->photo);
+            //storage      
+            $user->photo = ($request->photo);
                 }else{ 
         
                      $user->photo = "fotoprueba.png";        
@@ -115,7 +117,4 @@ class User extends Model
         }
         return false;
     }
-
-
-
 }
