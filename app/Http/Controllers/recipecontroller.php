@@ -10,6 +10,7 @@ use App\Http\Controllers\RecipeHasIngredientController;
 use App\Http\Controllers\RecipeHasCategoryController;
 use App\Category;
 use App\Step;
+use App\User;
 use App\Helpers\Token;
 use Illuminate\Support\Facades\Storage;
 
@@ -108,27 +109,17 @@ class recipecontroller extends Controller
         $recipe_category = $RecipeHasCategoryController->getCategories($request->recipe_id);
 
         return response()->json(["recipe"=>$recipe,"ingredientes" => $recipe_ingredient, "pasos" => $recipe_steps,"category"=>$recipe_category], 200);
-    }
-    public function show_all(Request $request)
-    {
-        $recipe= new recipe;
-
-        $recipe = recipe::all();
-        //falta organizar por  rating
-
-
-        return response()->json(["recipe"=>$recipe], 200);
-    }
-
-    
+    }    
 
     public function showAll(){
 
         $recipe= new recipe;
         $recipes = recipe::all();
 
-        return $recipes;
+        return response()->json($recipe, 200);
     }
+
+ 
 
     public function showFromCategory(Request $request){
 
