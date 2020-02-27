@@ -26,8 +26,12 @@ class checkAuthAdmin
             $user = User::where('email',$data_token->email)->first();
             if(isset($user)){
                 if ($user->rol == 3) {                    
-                    $request->request->add(['data_token'=>$data_token]);
-                    return $next($request);
+                    if ($user->banned == 0) {                    
+                        $request->request->add(['data_token'=>$data_token]);
+                        return $next($request);
+                    }else{
+                        var_dump('Estas baniado, sorry, haberte portado bien'); exit;
+                    }
                 }
             }
         }               
