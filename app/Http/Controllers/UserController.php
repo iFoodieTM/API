@@ -346,7 +346,9 @@ class UserController extends Controller
         if (isset($user)) 
         {
             $user->name = $request->name;
-            $user->password = encrypt($request->password);
+            if (isset($request->password)) {
+                $user->password = encrypt($request->password);
+            }           
             $user->user_name = $request->user_name;
             $user->update();
 
