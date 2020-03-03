@@ -43,6 +43,7 @@ Route::group(['middleware' => ['auth']], function (){
     Route::put('update', 'UserController@update');
     Route::get('show_user','UserController@show_user');
     route::post('check_user_name','UserController@check_user_name');
+    route::put('update_user','UserController@update_user');
     // Endpoints de categorias
     Route::get('show_categories', 'CategoryController@show');
     

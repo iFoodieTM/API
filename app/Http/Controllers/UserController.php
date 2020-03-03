@@ -261,6 +261,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+
+     // esta funcion update es para usarse desde la web app edita los 3 tipos de usarios 
     public function update(Request $request)
     {
         $user = User::where('email', $request->data_token->email)->first();
@@ -335,6 +338,34 @@ class UserController extends Controller
 
     }
 
+
+    public function update_user(Request $request){
+
+        $user = User::where('email', $request->data_token->email)->first();
+
+        if (isset($user)) 
+        {
+            $user->name = $request->name;
+            $user->password = encrypt($request->password);
+            $user->user_name = $request->user_name;
+            $user->update();
+
+            return response()->json("usuario actualizado",200);
+        
+
+        }else{
+                                
+            return response()->json("usuario no posee token identificador",401);
+        
+        }
+
+
+
+
+
+
+
+    }
     /**
      * Remove the specified resource from storage.
      *
