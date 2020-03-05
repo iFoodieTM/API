@@ -226,20 +226,20 @@ class UserController extends Controller
     public function show_users(Request $request)
     {
         $users = User::where('rol',1)->get();
-        return response()->json($users);
+        return response()->json($users,200);
     }
 
     public function show_admin(Request $request)
     {
         $users = User::where('rol',3)->get();
-        return response()->json($users);
+        return response()->json($users,200);
     }
 
     public function show_restaurant()
     {
         $users = User::where(['rol'=>2])->get();
 
-        return response()->json($users);
+        return response()->json($users,200);
         
     }
 
