@@ -96,7 +96,7 @@ class UserController extends Controller
             {
                 $token = new Token($data_token);
                 $tokenEncoded = $token->encode();
-                return response()->json([$tokenEncoded], 201);
+                return response()->json($tokenEncoded, 201);
             }
         }
         return response()->json(["No se ha encontrado"], 401);
