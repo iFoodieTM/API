@@ -116,7 +116,7 @@ class recipecontroller extends Controller
         $recipe= new recipe;
         $recipes = recipe::all();
 
-        return response()->json([$recipes], 200);
+        return response()->json($recipes, 200);
     }
     public function showAllFromUser(Request $request){
 
