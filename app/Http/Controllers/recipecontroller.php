@@ -116,7 +116,7 @@ class recipecontroller extends Controller
         $recipe= new recipe;
         $recipes = recipe::all();
 
-        return response()->json($recipes, 200);
+        return response()->json([$recipes], 200);
     }
     public function showAllFromUser(Request $request){
 
@@ -184,6 +184,8 @@ class recipecontroller extends Controller
             $recipe = recipe::where('id',$request->id)->first();
             if (isset($recipe))
             {  
+             
+                
             $recipe->delete();
             return response()->json(["Success" => "Se ha eliminado la receta: "], 200);
 
