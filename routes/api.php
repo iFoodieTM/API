@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth']], function (){
     Route::post('show_recipe', 'recipecontroller@show');
     Route::get('showAll', 'recipecontroller@showAll');
     Route::post('showAllFromUser', 'recipecontroller@showAllFromUser');
+    Route::post('searchRecipe', 'recipecontroller@searchRecipe');
     // Endpoints de ingredientes
     Route::apiResource('Ingredient', 'ingredientController');
     Route::post('getIdIngredient', 'ingredientController@getIdIngredient');
