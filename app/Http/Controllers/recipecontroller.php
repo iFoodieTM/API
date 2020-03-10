@@ -205,7 +205,13 @@ class recipecontroller extends Controller
 
             $recipe = recipe::where('id',$request->id)->first();
             if (isset($recipe))
-            {  
+            {   
+                
+                $step = new Step;
+                $recipeHasCategory = new RecipeHasCategory;
+                $recipeHasIngredient = new RecipeHasIngredient;
+                $step->delete_from_recipe($recipe_id);
+
              
                 
             $recipe->delete();

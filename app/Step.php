@@ -45,7 +45,7 @@ class Step extends Model
     {
 
         $step = new Step;
-        var_dump($array_steps);
+
         foreach ($array_steps as $key => $step_to_create) {
 
             
@@ -57,9 +57,15 @@ class Step extends Model
             
         }
 
-
-
     }
 
+    Public function delete_from_recipe($recipe_id)
+    {
+        $recipe_steps = self::where('recipe_id', $recipe_id)->get();
+
+        foreach ($recipe_steps as $key => $step) {
+            $step->delete();
+        }
+    }   
 }
 

@@ -27,4 +27,12 @@ class RecipeHasIngredient extends Model
     	$ingredientsID = self::where('recipe_id',$id_recipe)->get();
 		return $ingredientsID;
     }
+    Public function delete_from_recipe($recipe_id)
+    {
+        $recipe_ingredients= self::where('recipe_id', $recipe_id)->get();
+
+        foreach ($recipe_ingredients as $key => $recipe_ingredient) {
+            $recipe_ingredient->delete();
+        }
+    }
 }

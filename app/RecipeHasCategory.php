@@ -28,4 +28,13 @@ class RecipeHasCategory extends Model
 		return $categoriesID;
 
     }
+
+    Public function delete_from_recipe($recipe_id)
+    {
+        $recipe_categories = self::where('recipe_id', $recipe_id)->get();
+
+        foreach ($recipe_categories as $key => $recipe_category) {
+            $recipe_category->delete();
+        }
+    }   
 }
