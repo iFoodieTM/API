@@ -86,6 +86,35 @@ class RecipeHasCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function getRecipes(Request $request)
+
+    {
+        $recipeHasCategory = new RecipeHasCategory;
+
+        $recipesHasCategory = RecipeHasCategory::where('id_category', $request->$category_id)->get();
+
+        if (isset($recipesHasCategory)) {
+            
+        $recipes_ids = array();
+
+        foreach ($recipesHasCategory as $key => $recipeHasCategory) {
+
+            array_push($recipes_ids, $recipeHasCategory->id_recipe);
+
+        }
+
+            return $recipesHasCategory;
+
+        
+        }else{
+            
+        return
+
+        }
+
+
+     }
+
     public function edit($id)
     {
         //
