@@ -54,7 +54,6 @@ Route::group(['middleware' => ['auth']], function (){
 Route::group(['middleware' => ['authAdmin']], function (){   
 
     Route::get('show_restaurant','UserController@show_restaurant');
-
 	Route::apiResource('category', 'CategoryController');
 	Route::post('ban','UserController@ban');
 	Route::post('unban','UserController@unban');

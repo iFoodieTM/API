@@ -49,5 +49,13 @@ class Ingredient extends Model
         return "Han habido errores";
     }
 
+    Public function delete_from_recipe($recipe_id)
+    {
+        $recipe_ingredients = self::where('recipe_id', $recipe_id)->get();
+
+        foreach ($recipe_ingredient as $key => $recipe_ingredient) {
+            $recipe_ingredient->delete();
+        }
+    }
 
 }
