@@ -132,19 +132,40 @@ class recipecontroller extends Controller
 
  
 
-    public function showFromCategory(Request $request){
+    public function searchRecipe (Request $request){
+        // Comprobar que nos llega un id de categoria
+        if (isset($request->category_id)) {
+            $RecipeHasCategoryController = new RecipeHasCategoryController();
+            $recipesFromCategory = $RecipeHasCategoryController->getRecipes($request->category_id);            
+        }
 
-        /*
-            SELECT recipes.* 
-            FROM recipes , recipe_has_categories 
-            WHERE recipe_has_categories.category_id = 5 and recipes.id = recipe_has_categories.recipe_id
-        */
+        $searchedRecipes = array();
+        $recipe= new recipe;
 
+        if (isset($recipesFromCategory)) {
+            // Buscar por titulo y categoria
+            foreach ($recipesFromCategory as $key => $recipe_id) {
+                $recipe = recipe::where('id',$recipe_id)->first();
+                if (strpos($recipe->name, $request->title)) {
+                    array_push($searchedRecipes, $recipe);
+                }
+            }
+            $recipes = recipe::all();
+        }else{
+            // Buscar por titulo
+            $recipes = recipe::all();
+            foreach ($recipes as $key => $recipe) {
+                if (strpos($recipe->name, $request->title)){
+                    array_push($searchedRecipes, $recipe);
+                }
+            }
+        }
 
-        // si la respuesta esta vacia por que no haya recetas con esa categoria buscar por titulo y devolver por titulo.
-    }
-
-    public function showFromTitle(Request $request){
+        if (sizeof($searchedRecipes)!=0) {
+           return response()->json($searchedRecipes, 200);
+        }else{
+            return response()->json("No se han encontrado recetas con ese criterio de busqueda", 401);
+        }
 
     }
 
@@ -154,7 +175,7 @@ class recipecontroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
     public function edit($id)
     {
         //
