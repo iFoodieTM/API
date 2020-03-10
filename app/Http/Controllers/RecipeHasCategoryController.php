@@ -86,12 +86,12 @@ class RecipeHasCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function getRecipes(Request $request)
+    public function getRecipes($category_id)
 
     {
         $recipeHasCategory = new RecipeHasCategory;
 
-        $recipesHasCategory = RecipeHasCategory::where('id_category', $request->$category_id)->get();
+        $recipesHasCategory = RecipeHasCategory::where('id_category', $category_id)->get();
 
         if (isset($recipesHasCategory)) {
             
@@ -99,16 +99,16 @@ class RecipeHasCategoryController extends Controller
 
         foreach ($recipesHasCategory as $key => $recipeHasCategory) {
 
-            array_push($recipes_ids, $recipeHasCategory->id_recipe);
+            array_push($recipes_ids, $recipeHasCategory->recipe_id);
 
         }
 
-            return $recipesHasCategory;
+            return $recipes_ids;
 
         
         }else{
-            
-        return
+
+        return response()->json(["error" => 'no hay recetas que pertenescan a esa categoria'], 400);
 
         }
 

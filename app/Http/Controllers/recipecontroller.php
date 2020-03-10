@@ -133,15 +133,18 @@ class recipecontroller extends Controller
  
 
     public function searchRecipe (Request $request){
+
+     // falta buscar solamente por categoria?   
         // Comprobar que nos llega un id de categoria
         if (isset($request->category_id)) {
             $RecipeHasCategoryController = new RecipeHasCategoryController();
+            // puede dar problemas al devolver un array y no un objeto
             $recipesFromCategory = $RecipeHasCategoryController->getRecipes($request->category_id);            
         }
 
         $searchedRecipes = array();
         $recipe= new recipe;
-
+        // al estar devolviendo un array  este  ISSET siemrpe dara  true
         if (isset($recipesFromCategory)) {
             // Buscar por titulo y categoria
             foreach ($recipesFromCategory as $key => $recipe_id) {
