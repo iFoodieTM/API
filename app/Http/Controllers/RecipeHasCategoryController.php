@@ -108,7 +108,7 @@ class RecipeHasCategoryController extends Controller
         
         }else{
 
-        return response()->json(["error" => 'no hay recetas que pertenescan a esa categoria'], 400);
+        return null;
 
         }
 

@@ -134,17 +134,17 @@ class recipecontroller extends Controller
 
     public function searchRecipe (Request $request){
 
-     // falta buscar solamente por categoria?   
         // Comprobar que nos llega un id de categoria
         if (isset($request->category_id)) {
             $RecipeHasCategoryController = new RecipeHasCategoryController();
-            // puede dar problemas al devolver un array y no un objeto
+            //no debe dar error// puede dar problemas al devolver un array y no un objeto
             $recipesFromCategory = $RecipeHasCategoryController->getRecipes($request->category_id);            
         }
 
         $searchedRecipes = array();
         $recipe= new recipe;
-        // al estar devolviendo un array  este  ISSET siemrpe dara  true
+        //se devuelve null// al estar devolviendo un array  este  ISSET siemrpe dara  true
+        
         if (isset($recipesFromCategory)) {
             // Buscar por titulo y categoria
             foreach ($recipesFromCategory as $key => $recipe_id) {
@@ -153,16 +153,21 @@ class recipecontroller extends Controller
                     array_push($searchedRecipes, $recipe);
                 }
             }
-            $recipes = recipe::all();
-        }else{
-            // Buscar por titulo
-            $recipes = recipe::all();
-            foreach ($recipes as $key => $recipe) {
-                if (strpos($recipe->name, $request->title)){
-                    array_push($searchedRecipes, $recipe);
+        }else if ($request->title == "") {
+                // Buscar por categoria
+                foreach ($recipesFromCategory as $key => $recipe_id) {
+                    $recipe = recipe::where('id',$recipe_id)->first();
+                    array_push($searchedRecipes, $recipe);                    
+                }            
+            }else{
+                // Buscar por titulo
+                $recipes = recipe::all();
+                foreach ($recipes as $key => $recipe) {
+                    if (strpos($recipe->name, $request->title)){
+                        array_push($searchedRecipes, $recipe);
+                    }
                 }
             }
-        }
 
         if (sizeof($searchedRecipes)!=0) {
            return response()->json($searchedRecipes, 200);
