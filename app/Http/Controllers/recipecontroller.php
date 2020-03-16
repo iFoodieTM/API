@@ -103,7 +103,14 @@ class recipecontroller extends Controller
         $step = new Step;
 
         $recipe = recipe::where('id',$request->recipe_id)->first();
-
+        //$path = 'http://www.mypetsapp.es/storage/
+        $path = 'http://34.204.47.162/storage/';
+        if ($recipe->photo != null) {
+            $photo = $path . $recipe->photo;
+        }else{
+            $photo = ".";
+        }
+        $recipe->photo = $photo;
         $recipe_ingredient = $RecipeHasIngredientController->getRecipes($request->recipe_id);
         $recipe_steps = $step->recipe_Steps($request->recipe_id);
         $recipe_category = $RecipeHasCategoryController->getCategories($request->recipe_id);

@@ -31,14 +31,12 @@ class recipe extends Model
         $recipe->description = $request->description;
         $recipe->video = $request->video;
         $recipe->rating = $request->rating;
-
-        if(isset($check_photo)){
-            //storage
-            $recipe->photo = ($request->photo);
-            }else{ 
-        
-                     $recipe->photo = "fotoprueba.png";               
-                 }
+        if ($request->photo != NULL)
+            {
+                    //putFileAs(carpeta donde se guarda, la foto, nombre con el que se guarda)
+                $photo = Storage::putFileAs('Recipes', new File($request->photo), "$user->id$recipe->name.jpg");
+                $recipe->photo = $photo;
+            }
 
         $recipe->save();
         $recipe_id = $recipe->id;

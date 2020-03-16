@@ -212,8 +212,16 @@ class UserController extends Controller
 
         $user = User::where('email', $request->data_token->email)->first();
 
-        if (isset($user)) 
-        {
+        if (isset($user)){
+
+            //$path = 'http://www.mypetsapp.es/storage/
+            $path = 'http://34.204.47.162/storage/';
+            if ($user->photo != null) {
+                $photo = $path . $user->photo;
+            }else{
+                $photo = ".";
+            }
+            $user->photo = $photo;
             
             return response()->json($user,200);
 

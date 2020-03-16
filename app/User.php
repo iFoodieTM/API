@@ -30,7 +30,7 @@ class User extends Model
         $user->user_name = $request->user_name;
         $user->password = encrypt($request->password);
         
-
+        /*
         if(isset($check_photo)){
             //storage
             $user->photo = ($request->photo);
@@ -38,6 +38,13 @@ class User extends Model
 
              $user->photo = "fotoprueba.png";        
         }
+        */
+        if ($request->photo != NULL)
+            {
+                    //putFileAs(carpeta donde se guarda, la foto, nombre con el que se guarda)
+                $photo = Storage::putFileAs('Users', new File($request->photo), "$user->email.jpg");
+                $user->photo = $photo;
+            }
         $user->save();
     }
 
