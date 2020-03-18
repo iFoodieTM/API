@@ -123,7 +123,8 @@ class recipecontroller extends Controller
         $recipe= new recipe;
         $recipes = recipe::all();
 
-        return response()->json($recipes, 200);
+        $recipesReverse = array_reverse($recipes);
+        return response()->json($recipesReverse, 200);
     }
     public function showAllFromUser(Request $request){
 
@@ -131,7 +132,8 @@ class recipecontroller extends Controller
         $recipes = recipe::where('user_id',$request->user_id)->get();
        
         if (sizeof($recipes)!=0) {
-           return response()->json($recipes, 200);
+            $recipesReverse = array_reverse($recipes);
+            return response()->json($recipesReverse, 200);
         }else{
             return response()->json("Este usuario no tiene ninguna receta creada", 401);
         }        
@@ -177,7 +179,8 @@ class recipecontroller extends Controller
             }
 
         if (sizeof($searchedRecipes)!=0) {
-           return response()->json($searchedRecipes, 200);
+            $recipesReverse = array_reverse($searchedRecipes);
+            return response()->json($recipesReverse, 200);
         }else{
             return response()->json("No se han encontrado recetas con ese criterio de busqueda", 401);
         }
