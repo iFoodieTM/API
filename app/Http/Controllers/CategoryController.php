@@ -48,7 +48,6 @@ class categoryController extends Controller
              return response()->json(["Error" => "La categoria ya existe."], 400);
         }
     }
-
     /**
      * Display the specified resource.
      *
@@ -60,6 +59,7 @@ class categoryController extends Controller
         $categories = Category::all();
         return response()->json($categories,200);
     }
+
     public function getIdCategory(Request $request)    {
    
         $category = new Category();

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
+use App\Http\Controllers\UserHasCategoryController;
+use App\UserHasCategory;
+use App\Category;
 use App\Helpers\Token;
 use Illuminate\Support\Facades\Storage;
 
@@ -42,7 +45,7 @@ class UserController extends Controller
             if (isset($request->rol)) {
                 switch ($request->rol) {
 
-                case  1:
+                case  1: // User usuario
                     if (!$user->user_name_taken($request->user_name)) {
                         $user->create($request);
                         return $this->login($request);
@@ -53,12 +56,28 @@ class UserController extends Controller
                     
                    
 
-                case 2:
+                case 2: // User restaurante
                     $user->create_restaurant($request);
+
+                    if ($request->categories!=null) {
+                        $categories = $request->categories;
+                        $category = new Category();
+                        $userHasCategory = new UserHasCategory();
+
+                        foreach ($categories as $key => $cat) {
+                            $id_category = $category->get_id_category($cat);
+                            if ($id_category != false) {                
+                               // print('Categoria - ID receta - ID categoria <br>');
+                               // print($cat. '-'. $user_id .'-'.$id_category.' <br>');
+                                $userHasCategory->createFromIds($user->id,$id_category);
+                            }
+                        }
+                    }
+
                     return $this->login($request);
                     break;
 
-                case 3:
+                case 3: // User admin
                     if (!$user->user_name_taken($request->user_name)) {
                         $user->create_admin($request);
                         return $this->login($request);
