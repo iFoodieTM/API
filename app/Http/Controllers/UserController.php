@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\UserHasCategoryController;
 use App\UserHasCategory;
 use App\Category;
+use App\Location;
 use App\Helpers\Token;
 use Illuminate\Support\Facades\Storage;
 
@@ -73,7 +74,10 @@ class UserController extends Controller
                             }
                         }
                     }
-
+                    if ($request->longitude != null && $request->latitude != null ) {
+                        $location = new Location();
+                        $location->createLocation($user->id,$request->longitude,$request->latitude);
+                    }
                     return $this->login($request);
                     break;
 
@@ -388,12 +392,6 @@ class UserController extends Controller
         
         }
 
-
-
-
-
-
-
     }
     /**
      * Remove the specified resource from storage.
@@ -412,6 +410,37 @@ class UserController extends Controller
                  'el usuario ha sido eliminado'
             ], 200);
     }
+    // Location - metodos para gestionar la localizacion de los restaurantes
+    public function deleteLocation(Request $request){
+        //$location = new Location;
+        $location = Location::where('id', $request->id_location)->first();
+        $location->delete();
+
+        return response()->json([
+                 'La locaclizacion ha sido eliminada'
+            ], 200);
+    }
+    public function getLocationfromUser(Request $request){
+        
+        $locations = Location::where('user_id',$request->data_token->email)->get();
+        return $locations;        
+    }
+    public function addNewLocations(Request $request){
+        $location = new Location;
+        if ($request->locations != null) {
+            foreach ($request->locations as $key => $loc) {
+                $location->createLocation($request->data_token->email,$loc->longitude,$loc->latitude);
+            }   
+            return response()->json([
+                 'Las localizaciones han sido añadidas'
+            ], 200);
+        }
+        return response()->json([
+                 'No se han podido añadir las localizaciones'
+            ], 401);     
+    }
+
+    
 
     public function ban(Request $request)
     {

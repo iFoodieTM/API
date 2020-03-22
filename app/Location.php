@@ -11,5 +11,13 @@ class Location extends Model
 
 
 
+	public function createLocation($user_id,$longitude,$latitude){
+		$location = new Location();
+		$location->user_id = $user_id;
+		$location->longitude = $longitude;
+		$location->latitude = $latitude;
+		$location->save();
+	}
+
 
 }

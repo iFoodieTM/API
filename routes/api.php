@@ -47,6 +47,10 @@ Route::group(['middleware' => ['auth']], function (){
     route::put('update_user','UserController@update_user');
     Route::get('show_users','UserController@show_users');
     Route::get('show_admin','UserController@show_admin');
+        // Endpoints de las localizaciones de los usuarios
+        Route::get('deleteLocation','UserController@deleteLocation');
+        Route::get('getLocationfromUser','UserController@getLocationfromUser');
+        Route::get('addNewLocations','UserController@addNewLocations');
     // Endpoints de categorias
     Route::get('show_categories', 'CategoryController@show');
     
