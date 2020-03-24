@@ -59,7 +59,6 @@ class UserController extends Controller
 
                 case 2: // User restaurante
                     $user->create_restaurant($request);
-
                     if ($request->categories!=null) {
                         $categories = $request->categories;
                         $category = new Category();
