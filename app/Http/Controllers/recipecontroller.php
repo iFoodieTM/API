@@ -122,8 +122,11 @@ class recipecontroller extends Controller
 
         $recipe= new recipe;
         $recipes = recipe::all();
-
-        $recipesReverse = array_reverse($recipes);
+        $numOfRecipes = count($recipes);
+        $recipesReverse = array();
+        for ($i=$numOfRecipes; $i = 0 ; $i--) { 
+            array_push($recipesReverse, $recipes[$i])
+        }       
         return response()->json($recipesReverse, 200);
     }
     public function showAllFromUser(Request $request){
