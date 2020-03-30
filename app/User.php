@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
 
 class User extends Model
 {
@@ -39,6 +40,7 @@ class User extends Model
              $user->photo = "fotoprueba.png";        
         }
         */
+       // var_dump($request->photo);exit;
         if ($request->photo != NULL)
             {
                     //putFileAs(carpeta donde se guarda, la foto, nombre con el que se guarda)
