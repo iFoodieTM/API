@@ -129,8 +129,8 @@ class recipecontroller extends Controller
         //    array_push($recipesReverse, $recipes[$i]);
         //}       
 
-        $recipesReverse = array_reverse($recipes);        
-        return response()->json($recipesReverse, 201);
+        //$recipesReverse = array_reverse($recipes);        
+        return response()->json($recipes, 201);
     }
     public function showAllFromUser(Request $request){
 
