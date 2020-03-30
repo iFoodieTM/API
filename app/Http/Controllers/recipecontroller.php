@@ -125,7 +125,7 @@ class recipecontroller extends Controller
         $numOfRecipes = count($recipes);
         $recipesReverse = array();
         //print("hola");exit;
-        for ($i=$numOfRecipes; $i = -1 ; $i--) { 
+        for ($i=$numOfRecipes; $i = 0 ; $i--) { 
             array_push($recipesReverse, $recipes[$i]);
         }       
 
