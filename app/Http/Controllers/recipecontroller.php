@@ -130,7 +130,10 @@ class recipecontroller extends Controller
         //    array_push($recipesReverse, $recipes[$i]);
         //}       
 
-        //$recipesReverse = array_reverse($recipes);        
+        //$recipesReverse = array_reverse($recipes); 
+        $recipeFoto = substr($recipe->photo, 7, strlen($recipe->photo));
+        $photo = $recipeFoto;
+        $recipes->photo = $photo;       
         return response()->json($recipes, 201);
     }
     public function showAllFromUser(Request $request){
