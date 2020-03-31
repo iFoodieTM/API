@@ -85,7 +85,7 @@ class recipecontroller extends Controller
         }
         
         
-        return response()->json($recipe_id, 200);
+        return response()->json(["id" => $recipe_id], 200);
   
     }
 
