@@ -104,7 +104,7 @@ class recipecontroller extends Controller
 
         $recipe = recipe::where('id',$request->recipe_id)->first();
         //$path = 'http://www.mypetsapp.es/storage/
-        $path = 'http://34.204.47.162/storage/';
+        $path = 'http://54.226.238.184/storage/';
         if ($recipe->photo != null) {
             $photo = $path . $recipe->photo;
         }else{
