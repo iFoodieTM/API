@@ -239,7 +239,8 @@ class UserController extends Controller
             //$path = 'http://www.mypetsapp.es/storage/
             $path = 'http://54.226.238.184/storage/';
             if ($user->photo != null) {
-                $photo = $path . $user->photo;
+                $userFoto = substr($user->photo, 7, strlen($user->photo));
+                $photo = $path . $userFoto;
             }else{
                 $photo = ".";
             }

@@ -44,7 +44,7 @@ class User extends Model
         if ($request->photo != NULL)
             {
                     //putFileAs(carpeta donde se guarda, la foto, nombre con el que se guarda)
-                $photo = Storage::putFileAs('Users', new File($request->photo), "$user->email.jpg");
+                $photo = Storage::putFileAs('public/Users', new File($request->photo), "$user->email.jpg");
                 $user->photo = $photo;
             }
         $user->save();
