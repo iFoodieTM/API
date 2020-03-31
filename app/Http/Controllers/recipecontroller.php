@@ -145,9 +145,9 @@ class recipecontroller extends Controller
     public function showAllFromUser(Request $request){
 
         $recipe= new recipe;
-        $recipes = recipe::where('user_id',$request->user_id)->first();
+        $recipes = recipe::where('user_id',$request->user_id)->get();
        
-        if (sizeof($recipes)!=0) {
+        if (isset($recipes)) {
             //$recipesReverse = array_reverse($recipes);
             return response()->json($recipes, 200);
         }else{
