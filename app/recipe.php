@@ -32,12 +32,12 @@ class recipe extends Model
         $recipe->description = $request->description;
         $recipe->video = $request->video;
         $recipe->rating = $request->rating;
-        if ($request->photo != NULL)
+        /*if ($request->photo != NULL)
             {
                     //putFileAs(carpeta donde se guarda, la foto, nombre con el que se guarda)
                 $photo = Storage::putFileAs('public/Recipes', new File($request->photo), "$user->id$recipe->name.jpg");
                 $recipe->photo = $photo;
-            }
+            }*/
 
         $recipe->save();
         $recipe_id = $recipe->id;
@@ -47,8 +47,17 @@ class recipe extends Model
 
         return $recipe_id;
     }
+    public function setPhoto($request){
 
-    public function recipe_exist($id){
+        $recipe = recipe::where('id',$request->recipe_id)->first();
+        if ($request->photo != NULL)
+            {
+                    //putFileAs(carpeta donde se guarda, la foto, nombre con el que se guarda)
+                $photo = Storage::putFileAs('public/Recipes', new File($request->photo), "$user->id$recipe->name.jpg");
+                $recipe->photo = $photo;
+            }
+            
+        $recipe->update();
 
 
     }
