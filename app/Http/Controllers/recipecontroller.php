@@ -92,7 +92,7 @@ class recipecontroller extends Controller
     public function setPhoto(Request $request){        
         $recipe = new recipe();
         $recipe->create_recipe($request);
-
+        
         return response()->json(["Success" => "Se ha añadido la imagen"], 200);
     }
 
