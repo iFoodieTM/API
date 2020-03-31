@@ -55,8 +55,8 @@ class recipecontroller extends Controller
 
         foreach ($ingredients as $key => $ing) {
             $id_ingredient = $ingredient->get_id_ingredient($ing);
-            print('Ingrediente - ID receta - ID ingrediente <br>');
-            print($ing. '-'. $recipe_id .'-'.$id_ingredient.' <br>');
+            //print('Ingrediente - ID receta - ID ingrediente <br>');
+            //print($ing. '-'. $recipe_id .'-'.$id_ingredient.' <br>');
             $recipeHasIngredient->createFromIds($recipe_id,$id_ingredient);
         }
 
@@ -68,8 +68,8 @@ class recipecontroller extends Controller
         foreach ($categories as $key => $cat) {
             $id_category = $category->get_id_category($cat);
             if ($id_category != false) {                
-                print('Categoria - ID receta - ID categoria <br>');
-                print($cat. '-'. $recipe_id .'-'.$id_category.' <br>');
+                //print('Categoria - ID receta - ID categoria <br>');
+                //print($cat. '-'. $recipe_id .'-'.$id_category.' <br>');
                 $recipeHasCategory->createFromIds($recipe_id,$id_category);
             }
         }
@@ -79,8 +79,8 @@ class recipecontroller extends Controller
         $steps = $request->steps;
 
         foreach ($steps as $key => $st) {
-            print('nºPaso - Paso - ID receta <br>');
-            print($ing. '-'. $recipe_id .'-'.$recipe_id.' <br>');
+            //print('nºPaso - Paso - ID receta <br>');
+            //print($ing. '-'. $recipe_id .'-'.$recipe_id.' <br>');
             $step->createStep(($key+1),$st,$recipe_id);
         }
         
