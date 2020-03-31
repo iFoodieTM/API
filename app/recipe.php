@@ -51,9 +51,7 @@ class recipe extends Model
 
         $user = User::where('email', $request->data_token->email)->first();
 
-        $recipe_id = intval($request->recipe_id);
-        var_dump($request->recipe_id);exit();
-        $recipe = recipe::where('id',$recipe_id)->first();
+        $recipe = recipe::where('id',$request->recipe_id)->first();
 
         if ($request->photo != NULL)
             {
