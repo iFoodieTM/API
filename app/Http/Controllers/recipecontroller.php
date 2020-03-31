@@ -237,6 +237,8 @@ class recipecontroller extends Controller
                 $recipeHasCategory = new RecipeHasCategory;
                 $recipeHasIngredient = new RecipeHasIngredient;
                 $step->delete_from_recipe($recipe_id);
+                $recipeHasCategory->delete_from_recipe($recipe_id);
+                $recipeHasIngredient->delete_from_recipe($recipe_id);
 
              
                 
