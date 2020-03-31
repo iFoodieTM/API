@@ -148,8 +148,13 @@ class recipecontroller extends Controller
         $recipes = recipe::where('user_id',$request->user_id)->get();
        
         if (isset($recipes)) {
+            $NewRecipes = array();
+        foreach ($recipes as $key => $recipe) {
+            $recipe->photo = substr($recipe->photo, 7, strlen($recipe->photo));
+            array_push($NewRecipes, $recipe);
+        }
             //$recipesReverse = array_reverse($recipes);
-            return response()->json($recipes, 200);
+            return response()->json($NewRecipes, 200);
         }else{
             return response()->json("Este usuario no tiene ninguna receta creada", 401);
         }        
