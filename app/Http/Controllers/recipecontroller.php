@@ -227,6 +227,7 @@ class recipecontroller extends Controller
     public function destroy(Request $request)
     {
         $recipe = new recipe();
+        $recipe_id = $recipe->id;
 
             $recipe = recipe::where('id',$request->id)->first();
             if (isset($recipe))
