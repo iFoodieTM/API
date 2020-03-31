@@ -50,7 +50,9 @@ class recipe extends Model
     public function setPhoto($request){
 
         $user = User::where('email', $request->data_token->email)->first();
+
         $recipe_id = intval($request->recipe_id);
+        var_dump(intval($request->recipe_id));exit();
         $recipe = recipe::where('id',$recipe_id)->first();
 
         if ($request->photo != NULL)
