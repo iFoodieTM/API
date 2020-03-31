@@ -35,7 +35,7 @@ class recipe extends Model
         if ($request->photo != NULL)
             {
                     //putFileAs(carpeta donde se guarda, la foto, nombre con el que se guarda)
-                $photo = Storage::putFileAs('Recipes', new File($request->photo), "$user->id$recipe->name.jpg");
+                $photo = Storage::putFileAs('public/Recipes', new File($request->photo), "$user->id$recipe->name.jpg");
                 $recipe->photo = $photo;
             }
 

@@ -106,7 +106,8 @@ class recipecontroller extends Controller
         //$path = 'http://www.mypetsapp.es/storage/
         $path = 'http://54.226.238.184/storage/';
         if ($recipe->photo != null) {
-            $photo = $path . $recipe->photo;
+            $recipeFoto = substr($recipe->photo, 6, strlen($recipe->photo));
+            $photo = $path . $recipeFoto;
         }else{
             $photo = ".";
         }
