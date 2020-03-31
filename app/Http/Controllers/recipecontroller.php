@@ -122,6 +122,9 @@ class recipecontroller extends Controller
     public function showAll(){
 
         $recipe= new recipe;
+        $recipeFoto = substr($recipe->photo, 7, strlen($recipe->photo));
+        $photo = $recipeFoto;
+        $recipe->photo = $photo; 
         $recipes = recipe::all();
         //$numOfRecipes = count($recipes);
         //$recipesReverse = array();
@@ -131,9 +134,7 @@ class recipecontroller extends Controller
         //}       
 
         //$recipesReverse = array_reverse($recipes); 
-        $recipeFoto = substr($recipe->photo, 7, strlen($recipe->photo));
-        $photo = $recipeFoto;
-        $recipes->photo = $photo;       
+             
         return response()->json($recipes, 201);
     }
     public function showAllFromUser(Request $request){
