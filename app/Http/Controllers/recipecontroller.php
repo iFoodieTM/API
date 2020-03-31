@@ -145,11 +145,11 @@ class recipecontroller extends Controller
     public function showAllFromUser(Request $request){
 
         $recipe= new recipe;
-        $recipes = recipe::where('user_id',$request->user_id)->get();
+        $recipes = recipe::where('user_id',$request->user_id)->first();
        
         if (sizeof($recipes)!=0) {
-            $recipesReverse = array_reverse($recipes);
-            return response()->json($recipesReverse, 200);
+            //$recipesReverse = array_reverse($recipes);
+            return response()->json($recipes, 200);
         }else{
             return response()->json("Este usuario no tiene ninguna receta creada", 401);
         }        
