@@ -85,14 +85,14 @@ class recipecontroller extends Controller
         }
         
         
-        return response()->json(["Success" => "Se ha creado la receta"], 200);
+        return response()->json(["id" => $recipe_id], 200);
   
     }
 
     public function setPhoto(Request $request){        
         $recipe = new recipe();
         $recipe->setPhoto($request);
-        
+
         return response()->json(["Success" => "Se ha añadido la imagen"], 200);
     }
 
